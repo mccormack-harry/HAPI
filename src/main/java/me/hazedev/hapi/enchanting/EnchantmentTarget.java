@@ -22,17 +22,29 @@ public enum EnchantmentTarget {
         public boolean includes(Material material) {
             return material == Material.NETHERITE_AXE || material == Material.DIAMOND_AXE || material == Material.GOLDEN_AXE || material == Material.IRON_AXE || material == Material.STONE_AXE || material == Material.WOODEN_AXE;
         }
+        @Override
+        public Enchantment[] getVanillaEnchantments() {
+            return new Enchantment[]{Enchantment.DIG_SPEED, Enchantment.SILK_TOUCH};
+        }
     },
     SHOVEL {
         @Override
         public boolean includes(Material material) {
             return material == Material.NETHERITE_SHOVEL || material == Material.DIAMOND_SHOVEL || material == Material.GOLDEN_SHOVEL || material == Material.IRON_SHOVEL || material == Material.STONE_SHOVEL || material == Material.WOODEN_SHOVEL;
         }
+        @Override
+        public Enchantment[] getVanillaEnchantments() {
+            return new Enchantment[]{Enchantment.DIG_SPEED, Enchantment.SILK_TOUCH};
+        }
     },
     HOE {
         @Override
         public boolean includes(Material material) {
             return material == Material.NETHERITE_HOE || material == Material.DIAMOND_HOE || material == Material.GOLDEN_HOE || material == Material.IRON_HOE || material == Material.STONE_HOE || material == Material.WOODEN_HOE;
+        }
+        @Override
+        public Enchantment[] getVanillaEnchantments() {
+            return new Enchantment[]{Enchantment.DIG_SPEED, Enchantment.SILK_TOUCH};
         }
     },
     SWORD {
@@ -42,7 +54,7 @@ public enum EnchantmentTarget {
         }
         @Override
         public Enchantment[] getVanillaEnchantments() {
-            return new Enchantment[]{Enchantment.DAMAGE_ALL, Enchantment.FIRE_ASPECT};
+            return new Enchantment[]{Enchantment.DAMAGE_ALL, Enchantment.FIRE_ASPECT, Enchantment.LOOT_BONUS_MOBS, Enchantment.DURABILITY};
         }
     },
     HELMET {
@@ -113,10 +125,21 @@ public enum EnchantmentTarget {
             return material == Material.TRIDENT;
         }
     },
-    SHIELD{
+    SHIELD {
         @Override
         public boolean includes(Material material) {
             return material == Material.SHIELD;
+        }
+    },
+    ELYTRA {
+        @Override
+        public boolean includes(Material material) {
+            return material == Material.ELYTRA;
+        }
+
+        @Override
+        public Enchantment[] getVanillaEnchantments() {
+            return new Enchantment[]{Enchantment.DURABILITY};
         }
     };
 
