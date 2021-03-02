@@ -44,9 +44,8 @@ public class PlayTimeStatistic extends LongStatistic implements Listener {
     }
 
     @Override
-    public String getValue(UUID uniqueId, boolean isShort) {
-        long playTime = getPlayTime(uniqueId);
-        return Formatter.formatTimeRemaining(playTime, 3);
+    public String format(Long value, boolean isShort) {
+        return Formatter.formatTimeRemaining(value, 3);
     }
 
 }

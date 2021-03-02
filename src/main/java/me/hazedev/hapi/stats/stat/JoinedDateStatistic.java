@@ -11,18 +11,11 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.UUID;
 
 public class JoinedDateStatistic extends LongStatistic implements Listener {
 
     public JoinedDateStatistic() {
         super("joined_date", true);
-    }
-
-    @Override
-    public String getValue(UUID uniqueId, boolean isShort) {
-        OffsetDateTime joinedDate = OffsetDateTime.ofInstant(Instant.ofEpochMilli(getRawValue(uniqueId)), ZoneId.systemDefault());
-        return joinedDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -32,6 +25,12 @@ public class JoinedDateStatistic extends LongStatistic implements Listener {
 
     @Override
     public int compare(Long t1, Long t2) {
-        return Math.negateExact(super.compare(t1, t2));
+        return super.compare(t2, t1); // invert the compare function (Earliest joins first)
+    }
+
+    @Override
+    public String format(Long value, boolean isShort) {
+        OffsetDateTime joinedDate = OffsetDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneId.systemDefault());
+        return joinedDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT));
     }
 }
