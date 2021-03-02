@@ -1,5 +1,6 @@
 package me.hazedev.hapi.logging;
 
+import me.hazedev.hapi.chat.CCUtils;
 import me.hazedev.hapi.component.Component;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
@@ -13,9 +14,10 @@ import java.util.logging.Logger;
 public class Log {
 
     private static final Set<Logger> additionalLoggers = new HashSet<>();
-    private static final Level DEBUG = new DebugLevel();
-    private static final Level ERROR = new ErrorLevel();
-    private static final Level CHAT = new ChatLevel();
+    public static final Level DEBUG_LEVEL = new DebugLevel();
+    public static final Level ERROR_LEVEL = new ErrorLevel();
+    public static final Level CHAT_LEVEL = new ChatLevel();
+    public static final Level VOTE_LEVEL = new VoteLevel();
 
     public static void registerLogger(Logger logger) {
         if (logger != null) {
@@ -25,14 +27,14 @@ public class Log {
 
     public static void log(Component component, Level level, String message) {
         String formatted = formatMessage(component, message);
-        Bukkit.getLogger().log(level, formatted);
+        Bukkit.getLogger().log(level instanceof CustomLevel ? Level.INFO : level, formatted);
         for (Logger logger : additionalLoggers) {
             try {
                 logger.log(level, formatted);
             } catch (Exception e) {
+                additionalLoggers.remove(logger);
                 Bukkit.getLogger().warning("Failed to log to additional logger: " + logger.getName());
                 Log.error(component, e);
-                additionalLoggers.remove(logger);
             }
         }
     }
@@ -54,7 +56,7 @@ public class Log {
     }
 
     public static void debug(Component component, String message) {
-        log(component, DEBUG, message);
+        log(component, DEBUG_LEVEL, message);
     }
 
     public static void debug(String message) {
@@ -62,7 +64,7 @@ public class Log {
     }
 
     public static void error(Component component, Throwable throwable) {
-        log(component, ERROR, ExceptionUtils.getStackTrace(throwable));
+        log(component, ERROR_LEVEL, ExceptionUtils.getStackTrace(throwable));
     }
 
     public static void error(Throwable throwable) {
@@ -70,31 +72,52 @@ public class Log {
     }
 
     public static void chat(String entry) {
-        log(null, CHAT, entry);
+        log(null, CHAT_LEVEL, entry);
+    }
+
+    public static void vote(String message) {
+        log(null, VOTE_LEVEL, message);
     }
 
     private static String formatMessage(Component component, String message) {
+        message = CCUtils.stripColor(message);
         if (component != null) {
-            return "[" + component.getId() + "] " + message;
+            message = "[" + component.getId() + "] " + message;
         }
         return message;
     }
 
-    public static class DebugLevel extends Level {
+    private abstract static class CustomLevel extends Level {
+        protected CustomLevel(String name, int value) {
+            super(name, value);
+        }
+
+        protected CustomLevel(String name) {
+            this(name, 800);
+        }
+    }
+
+    public static class DebugLevel extends CustomLevel {
         protected DebugLevel() {
-            super("DEBUG", 801);
+            super("DEBUG", 700);
         }
     }
 
-    public static class ErrorLevel extends Level {
+    public static class ErrorLevel extends CustomLevel {
         protected ErrorLevel() {
-            super("ERROR", 802);
+            super("ERROR", 900);
         }
     }
 
-    public static class ChatLevel extends Level {
+    public static class ChatLevel extends CustomLevel {
         protected ChatLevel() {
-            super("CHAT", 803);
+            super("CHAT");
+        }
+    }
+
+    public static class VoteLevel extends CustomLevel {
+        public VoteLevel() {
+            super("VOTE");
         }
     }
 
