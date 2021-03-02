@@ -3,6 +3,7 @@ package me.hazedev.hapi.economy;
 import me.hazedev.hapi.chat.Formatter;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.OfflinePlayer;
 
 import java.util.*;
