@@ -39,10 +39,12 @@ public abstract class Currency implements Economy {
     }
 
     public Map<UUID, Double> getTop(int amount) {
-        Map<UUID, Double> top = new LinkedHashMap<>();
         List<Map.Entry<UUID, Double>> entryList = new ArrayList<>(balanceMap.entrySet());
         entryList.sort(Map.Entry.comparingByValue());
         Collections.reverse(entryList); // Order highest -> lowest
+        entryList.removeIf(entry -> entry.getKey().toString().equals("7e6258e2-938b-4c95-a75d-b476f38e6a18")); // TODO hide based on permissions ??
+
+        Map<UUID, Double> top = new LinkedHashMap<>();
         for (Map.Entry<UUID, Double> entry : entryList) {
             if (top.size() == amount) break;
             top.put(entry.getKey(), entry.getValue());
@@ -52,7 +54,7 @@ public abstract class Currency implements Economy {
 
     @Override
     public String getName() {
-        return id;
+        return WordUtils.capitalizeFully(id);
     }
 
     @Override
@@ -82,12 +84,20 @@ public abstract class Currency implements Economy {
         return hasAccount(offlinePlayer.getUniqueId());
     }
 
-    public String getBalanceFormatted(UUID uniqueId) {
-        return format(getBalance(uniqueId));
+    public final void set(UUID uniqueId, double v) {
+        balanceMap.put(uniqueId, v);
     }
 
-    public String getBalanceFormatted(OfflinePlayer offlinePlayer) {
-        return getBalanceFormatted(offlinePlayer.getUniqueId());
+    public final void set(OfflinePlayer offlinePlayer, double v) {
+        set(offlinePlayer.getUniqueId(), v);
+    }
+
+    public String getBalanceFormatted(UUID uniqueId, boolean isShort) {
+        return format(getBalance(uniqueId), isShort);
+    }
+
+    public String getBalanceFormatted(OfflinePlayer offlinePlayer, boolean isShort) {
+        return getBalanceFormatted(offlinePlayer.getUniqueId(), isShort);
     }
 
     public final double getBalance(UUID uniqueId) {
