@@ -148,6 +148,7 @@ public class EnchantmentManager {
         }
         item.setItemMeta(meta);
         Bukkit.getPluginManager().callEvent(new EnchantEvent(player, item, enchantment, oldLevel, level, tokenCost, levelCost));
+        if (player != null) player.updateInventory();
     }
 
 }
