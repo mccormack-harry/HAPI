@@ -2,6 +2,7 @@ package me.hazedev.hapi.userdata.properties;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import org.jetbrains.annotations.NotNull;
 
 public class LongProperty extends PrimitiveProperty<Long> {
 
@@ -10,12 +11,12 @@ public class LongProperty extends PrimitiveProperty<Long> {
     }
 
     @Override
-    public Long fromJsonElement(JsonElement element) {
+    public Long fromJsonElement(@NotNull JsonElement element) {
         return element.getAsJsonPrimitive().getAsLong();
     }
 
     @Override
-    public JsonPrimitive toJsonElement(Long value) {
+    public JsonPrimitive toJsonElement(@NotNull Long value) {
         return new JsonPrimitive(value);
     }
 

@@ -2,6 +2,7 @@ package me.hazedev.hapi.userdata.properties;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import org.jetbrains.annotations.NotNull;
 
 public class FloatProperty extends PrimitiveProperty<Float> {
 
@@ -10,12 +11,12 @@ public class FloatProperty extends PrimitiveProperty<Float> {
     }
 
     @Override
-    public Float fromJsonElement(JsonElement element) {
+    public Float fromJsonElement(@NotNull JsonElement element) {
         return null;
     }
 
     @Override
-    public JsonPrimitive toJsonElement(Float value) {
+    public JsonPrimitive toJsonElement(@NotNull Float value) {
         return null;
     }
 

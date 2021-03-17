@@ -5,7 +5,6 @@ import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.event.QuestFinishedEvent;
 import me.hazedev.hapi.event.QuestStartEvent;
 import me.hazedev.hapi.userdata.UserData;
-import me.hazedev.hapi.userdata.UserDataManager;
 import me.hazedev.hapi.userdata.properties.LongProperty;
 import me.hazedev.hapi.userdata.properties.Property;
 import org.apache.commons.lang.WordUtils;
@@ -66,12 +65,12 @@ public abstract class Quest {
     }
 
     public final Long getProgress(UUID uniqueId) {
-        UserData userData = manager.verifyHardDependency(UserDataManager.class).getUserData(uniqueId);
+        UserData userData = manager.getUserDataManager().getUserData(uniqueId);
         return userData.getProperty(getPath(), progressProperty);
     }
 
     private void setProgress(UUID uniqueId, Long progress) {
-        manager.verifyHardDependency(UserDataManager.class).getUserData(uniqueId).setProperty(getPath(), progressProperty, progress);
+        manager.getUserDataManager().getUserData(uniqueId).setProperty(getPath(), progressProperty, progress);
     }
 
     public final Long getFinishedTime(Player player) {
@@ -79,12 +78,12 @@ public abstract class Quest {
     }
 
     public final Long getFinishedTime(UUID uniqueId) {
-        UserData userData = manager.verifyHardDependency(UserDataManager.class).getUserData(uniqueId);
+        UserData userData = manager.getUserDataManager().getUserData(uniqueId);
         return userData.getProperty(getPath(), finishedTimeProperty);
     }
 
     private void setFinishedTime(UUID uniqueId, Long finishTime) {
-        manager.verifyHardDependency(UserDataManager.class).getUserData(uniqueId).setProperty(getPath(), finishedTimeProperty, finishTime);
+        manager.getUserDataManager().getUserData(uniqueId).setProperty(getPath(), finishedTimeProperty, finishTime);
     }
 
     public final boolean checkPrerequisites(Player player) {

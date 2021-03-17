@@ -1,5 +1,6 @@
 package me.hazedev.hapi.joinquit;
 
+import me.hazedev.hapi.chat.CCUtils;
 import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.event.FirstJoinEvent;
@@ -11,6 +12,7 @@ import me.hazedev.hapi.userdata.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -40,12 +42,10 @@ public class JoinQuitHandler extends Component implements Listener {
     @Override
     public void save() {
         UserDataManager userDataManager = verifyHardDependency(UserDataManager.class);
-        for (UUID uniqueId: welcomed) {
-            UserData userData = userDataManager.getUserData(uniqueId);
-            if (userData != null) {
+        for (UserData userData: userDataManager.getAllUserData()) {
+            UUID uniqueId = userData.getProperty(UserData.UNIQUE_ID);
+            if (welcomed.contains(uniqueId)) {
                 userData.setProperty(WELCOMED_PROPERTY, true);
-            } else {
-                Log.warning(this, "UserData for welcomed player is non-existent?");
             }
         }
     }
@@ -62,21 +62,26 @@ public class JoinQuitHandler extends Component implements Listener {
         return !welcomed.contains(uniqueId);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        String message;
         if (shouldWelcome(player.getUniqueId())) {
             welcomed.add(player.getUniqueId());
-            event.setJoinMessage("&dWelcome &f" + player.getName() + " &dto the server! (#" + Formatter.formatLong(welcomed.size()) + ")");
+            message = CCUtils.addColor("&dWelcome &f" + player.getName() + " &dto the server! (#" + Formatter.formatLong(welcomed.size()) + ")");
             Bukkit.getPluginManager().callEvent(new FirstJoinEvent(player));
         } else {
-            event.setJoinMessage("&8[&a+&8] &a" + player.getName());
+            message = CCUtils.addColor("&8[&a+&8] &a" + player.getName());
         }
+        event.setJoinMessage(message);
+        Log.chat(message);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        event.setQuitMessage("&8[&c-&8] &c" + event.getPlayer().getName());
+        String message = CCUtils.addColor("&8[&c-&8] &c" + event.getPlayer().getName());
+        event.setQuitMessage(message);
+        Log.chat(message);
     }
 
     @Override

@@ -29,7 +29,10 @@ public class EnchantmentManager {
     public EnchantmentManager(Component component) {
         this.component = component;
         loreUpdater = new EnchantmentLoreUpdater(this);
-        getComponent().getComponentManager().ifEnabled(DynamicItems.class, dynamicItems -> dynamicItems.registerItemUpdater(loreUpdater));
+        DynamicItems dynamicItems = getComponent().verifySoftDependency(DynamicItems.class);
+        if (dynamicItems != null) {
+            dynamicItems.registerItemUpdater(loreUpdater);
+        }
     }
 
     public Component getComponent() {
@@ -150,5 +153,7 @@ public class EnchantmentManager {
         Bukkit.getPluginManager().callEvent(new EnchantEvent(player, item, enchantment, oldLevel, level, tokenCost, levelCost));
         if (player != null) player.updateInventory();
     }
+
+
 
 }

@@ -2,8 +2,7 @@ package me.hazedev.hapi.chat;
 
 import me.hazedev.hapi.chat.json.JsonComponent;
 import me.hazedev.hapi.chat.json.JsonMessage;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,14 +50,16 @@ public class ChatUtils {
         cooldowns.put(sender.getName(), System.currentTimeMillis());
     }
 
+    public static void sendActionBarMessage(Player player, JsonMessage jsonMessage) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, jsonMessage.toBaseComponents());
+    }
+
     public static void sendMessage(CommandSender sender, JsonMessage jsonMessage) {
-        BaseComponent[] baseComponents = ComponentSerializer.parse(jsonMessage.toString());
-        sender.spigot().sendMessage(baseComponents);
+        sender.spigot().sendMessage(jsonMessage.toBaseComponents());
     }
 
     public static void sendMessage(CommandSender sender, JsonComponent jsonComponent) {
-        BaseComponent[] baseComponents = ComponentSerializer.parse(jsonComponent.toString());
-        sender.spigot().sendMessage(baseComponents);
+        sendMessage(sender, jsonComponent.asJsonMessage());
     }
 
     public static void broadcast(String message) {

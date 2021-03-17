@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class EconomyCommandHandler implements TabExecutor {
+public class EconomyCommandsHandler implements TabExecutor {
 
     private final AbstractCurrencyManager manager;
 
-    public EconomyCommandHandler(AbstractCurrencyManager manager) {
+    public EconomyCommandsHandler(AbstractCurrencyManager manager) {
         this.manager = manager;
     }
 
@@ -36,7 +36,7 @@ public class EconomyCommandHandler implements TabExecutor {
                     currency = manager.getDefaultCurrency();
                 }
                 Player player = (Player) sender;
-                ChatUtils.sendMessage(player, "&aBalance: " + currency.getBalanceFormatted(player));
+                ChatUtils.sendMessage(player, "&aBalance: " + currency.getBalanceFormatted(player, false));
             } else {
                 ChatUtils.sendMessage(sender, "&cOnly players can check their balance!");
             }

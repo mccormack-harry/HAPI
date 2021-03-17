@@ -1,7 +1,7 @@
 package me.hazedev.hapi.stats;
 
 import me.hazedev.hapi.io.YamlFileHandler;
-import me.hazedev.hapi.userdata.UserData;
+import me.hazedev.hapi.userdata.UserDataManager;
 import org.apache.commons.lang.WordUtils;
 
 import java.util.*;
@@ -39,11 +39,11 @@ public abstract class Statistic<T> {
 
     public abstract Map<UUID, T> getAll();
 
-    public abstract void load(Set<UserData> userDataSet);
+    public abstract void load(UserDataManager userDataManager);
 
-    public abstract void save(Set<UserData> userDataSet);
+    public abstract void save(UserDataManager userDataManager);
 
-    public abstract void reset(Set<UserData> userDataSet);
+    public abstract void reset(UserDataManager userDataManager);
 
     public abstract void loadOld();
 

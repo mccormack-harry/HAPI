@@ -38,6 +38,7 @@ public class CCUtils {
 
     public static String addColor(String message) {
         if (message == null) return null;
+        message = ChatColor.translateAlternateColorCodes('&', message);
         Matcher matcher = HEX_PATTERN.matcher(message);
         while (matcher.find()) {
             final ChatColor hexColor = ChatColor.of(matcher.group().substring(1, matcher.group().length() - 1));
@@ -46,7 +47,7 @@ public class CCUtils {
             message = before + hexColor + after;
             matcher = HEX_PATTERN.matcher(message);
         }
-        return ChatColor.translateAlternateColorCodes('&', message);
+        return message;
     }
 
     public static List<String> addColor(List<String> list) {

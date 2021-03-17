@@ -20,7 +20,7 @@ import java.util.UUID;
 public class UserDataManager extends Component implements Listener {
 
     private File userDataFile;
-    private final Set<UserData> userDataSet = new HashSet<>();
+    private final Set<UserData> userDataSet = Collections.synchronizedSet(new HashSet<>());
 
     public UserDataManager() {
         super("user-data");
@@ -57,22 +57,26 @@ public class UserDataManager extends Component implements Listener {
 
     @Override
     public void save() {
-        if (!userDataFile.exists()) {
-            userDataFile.getParentFile().mkdirs();
-            try {
-                userDataFile.createNewFile();
-            } catch (IOException e) {
-                Log.warning(this, "Failed to create " + userDataFile.getName());
-                Log.error(this, e);
+        synchronized (userDataFile) {
+            if (!userDataFile.exists()) {
+                userDataFile.getParentFile().mkdirs();
+                try {
+                    userDataFile.createNewFile();
+                } catch (IOException e) {
+                    Log.warning(this, "Failed to create " + userDataFile.getName());
+                    Log.error(this, e);
+                }
             }
-        }
-        JsonArray jsonArray = new JsonArray();
-        userDataSet.forEach(userData -> jsonArray.add(userData.getRoot()));
-        try (FileWriter fileWriter = new FileWriter(userDataFile)) {
-            new Gson().toJson(jsonArray, fileWriter);
-        } catch (IOException e) {
-            Log.warning(this, "Failed to save " + userDataFile.getName());
-            Log.error(this, e);
+            JsonArray jsonArray = new JsonArray();
+            synchronized (userDataSet) {
+                userDataSet.forEach(userData -> jsonArray.add(userData.getRoot()));
+                try (FileWriter fileWriter = new FileWriter(userDataFile)) {
+                    new Gson().toJson(jsonArray, fileWriter);
+                } catch (IOException e) {
+                    Log.warning(this, "Failed to save " + userDataFile.getName());
+                    Log.error(this, e);
+                }
+            }
         }
     }
 

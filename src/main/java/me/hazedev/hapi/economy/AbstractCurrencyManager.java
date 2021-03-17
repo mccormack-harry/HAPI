@@ -2,7 +2,8 @@ package me.hazedev.hapi.economy;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.hazedev.hapi.component.Component;
-import me.hazedev.hapi.economy.command.EconomyCommandHandler;
+import me.hazedev.hapi.economy.command.EcoCommandHandler;
+import me.hazedev.hapi.economy.command.EconomyCommandsHandler;
 import me.hazedev.hapi.userdata.UserData;
 import me.hazedev.hapi.userdata.UserDataManager;
 import me.hazedev.hapi.userdata.properties.DoubleProperty;
@@ -36,7 +37,8 @@ public abstract class AbstractCurrencyManager extends Component {
         });
         currencySet.forEach(Currency::setEnabled);
         registerPlaceholders();
-        EconomyCommandHandler commandHandler = new EconomyCommandHandler(this);
+        getCommand("eco").ifPresent(command -> command.setExecutor(new EcoCommandHandler(this)));
+        EconomyCommandsHandler commandHandler = new EconomyCommandsHandler(this);
         getCommand("balance").ifPresent(command -> command.setExecutor(commandHandler));
         getCommand("balancetop").ifPresent(command -> command.setExecutor(commandHandler));
         getCommand("withdraw").ifPresent(command -> command.setExecutor(commandHandler));

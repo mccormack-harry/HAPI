@@ -1,6 +1,10 @@
 package me.hazedev.hapi.chat.json;
 
 import com.google.gson.JsonArray;
+import me.hazedev.hapi.logging.Log;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.chat.ComponentSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,14 @@ public class JsonMessage {
             result.add(component.serialize());
         }
         return result;
+    }
+
+    public BaseComponent[] toBaseComponents() {
+        ComponentBuilder componentBuilder = new ComponentBuilder();
+        for (JsonComponent jsonComponent: content) {
+            componentBuilder.append(ComponentSerializer.parse(jsonComponent.toString()));
+        }
+        return componentBuilder.create();
     }
 
     @Override

@@ -45,13 +45,13 @@ public class CombiningLongStatistic extends LongStatistic {
     }
 
     @Override
-    public void load(Set<UserData> userDataSet) {}
+    public void load(UserDataManager userDataManager) {}
 
     @Override
-    public void save(Set<UserData> userDataSet) {}
+    public void save(UserDataManager userDataManager) {}
 
     @Override
-    public void reset(Set<UserData> userDataSet) {}
+    public void reset(UserDataManager userDataManager) {}
 
     @Override
     public void loadOld() {}

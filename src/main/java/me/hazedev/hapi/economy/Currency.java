@@ -1,9 +1,11 @@
 package me.hazedev.hapi.economy;
 
 import me.hazedev.hapi.chat.Formatter;
+import me.hazedev.hapi.event.BalanceChangeEvent;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.*;
@@ -86,7 +88,10 @@ public abstract class Currency implements Economy {
     }
 
     public final void set(UUID uniqueId, double v) {
-        balanceMap.put(uniqueId, v);
+        Double oldBalance = balanceMap.get(uniqueId);
+        BalanceChangeEvent event = new BalanceChangeEvent(uniqueId, this, oldBalance != null ? oldBalance : 0, v);
+        Bukkit.getPluginManager().callEvent(event);
+        balanceMap.put(uniqueId, event.getNewBalance());
     }
 
     public final void set(OfflinePlayer offlinePlayer, double v) {
@@ -121,7 +126,7 @@ public abstract class Currency implements Economy {
 
     public final EconomyResponse withdrawPlayer(UUID uniqueId, double v) {
         if (has(uniqueId, v)) {
-            balanceMap.put(uniqueId, getBalance(uniqueId) - v);
+            set(uniqueId, getBalance(uniqueId) - v);
             return new EconomyResponse(v, getBalance(uniqueId), EconomyResponse.ResponseType.SUCCESS, null);
         }
         return new EconomyResponse(0, getBalance(uniqueId), EconomyResponse.ResponseType.FAILURE, "You don't have " + format(v));
@@ -133,7 +138,7 @@ public abstract class Currency implements Economy {
     }
 
     public final EconomyResponse depositPlayer(UUID uniqueId, double v) {
-        balanceMap.put(uniqueId, getBalance(uniqueId) + v);
+        set(uniqueId, getBalance(uniqueId) + v);
         return new EconomyResponse(v,getBalance(uniqueId), EconomyResponse.ResponseType.SUCCESS, null);
     }
 

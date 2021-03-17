@@ -1,4 +1,4 @@
-package me.hazedev.hapi;
+package me.hazedev.hapi.util;
 
 public class Chance {
 

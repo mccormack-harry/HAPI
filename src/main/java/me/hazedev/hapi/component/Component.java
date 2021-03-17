@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Component {
 
-    ComponentManager questManager;
+    ComponentManager componentManager;
     boolean enabled;
     final String id;
     final Set<Listener> listeners = new HashSet<>(0);
@@ -23,11 +23,11 @@ public class Component {
     }
 
     public final ComponentManager getComponentManager() {
-        return questManager;
+        return componentManager;
     }
 
     public final ComponentManager getPlugin() {
-        return questManager;
+        return componentManager;
     }
 
     public final String getId() {
@@ -35,7 +35,7 @@ public class Component {
     }
 
     public final File getDataFolder() {
-        return new File(questManager.getDataFolder(), getId());
+        return new File(componentManager.getDataFolder(), getId());
     }
 
     public final YamlFileHandler getYamlFileHandler(String path) throws IOException {
@@ -48,12 +48,12 @@ public class Component {
     public final void saveResource(String name, boolean replace) throws IllegalArgumentException {
         String path = id + File.separatorChar + name;
         if (replace || !new File(getDataFolder(), name).exists()) {
-            questManager.saveResource(path, replace);
+            componentManager.saveResource(path, replace);
         }
     }
 
     public final Optional<PluginCommand> getCommand(String name) {
-        return Optional.ofNullable(questManager.getCommand(name));
+        return Optional.ofNullable(componentManager.getCommand(name));
     }
 
     public final boolean registerListener(Listener listener) {

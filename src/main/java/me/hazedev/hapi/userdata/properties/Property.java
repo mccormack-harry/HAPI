@@ -1,6 +1,7 @@
 package me.hazedev.hapi.userdata.properties;
 
 import com.google.gson.JsonElement;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Property<T> {
 
@@ -14,8 +15,8 @@ public abstract class Property<T> {
         return id;
     }
 
-    public abstract T fromJsonElement(JsonElement element);
+    public abstract T fromJsonElement(@NotNull JsonElement element);
 
-    public abstract JsonElement toJsonElement(T value);
+    public abstract JsonElement toJsonElement(@NotNull T value);
 
 }

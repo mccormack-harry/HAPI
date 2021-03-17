@@ -1,5 +1,6 @@
 package me.hazedev.hapi.component;
 
+import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.logging.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -11,8 +12,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class ComponentManager extends JavaPlugin {
 
@@ -61,19 +63,12 @@ public abstract class ComponentManager extends JavaPlugin {
         return null;
     }
 
-    public <T extends Component> T getComponentIfEnabled(Class<T> clazz) {
+    <T extends Component> T getComponentIfEnabled(Class<T> clazz) {
         T component = getComponent(clazz);
         if (component != null && component.isEnabled()) {
             return component;
         } else {
             return null;
-        }
-    }
-
-    public <T extends Component> void ifEnabled(Class<T> clazz, Consumer<T> consumer) {
-        T t = getComponentIfEnabled(clazz);
-        if (t != null) {
-            consumer.accept(t);
         }
     }
 
@@ -95,7 +90,7 @@ public abstract class ComponentManager extends JavaPlugin {
             String id = component.getId();
             if (config.getBoolean(id, true)) { // If is enabled
                 config.set(id, true);
-                component.questManager = this;
+                component.componentManager = this;
                 try {
                     component.enabled = component.onEnable();
                 } catch (Exception e) {
@@ -151,12 +146,17 @@ public abstract class ComponentManager extends JavaPlugin {
 
     public boolean save(@NotNull Component component) {
         if (component.enabled) {
+            long before = System.currentTimeMillis();
             try {
                 component.save();
             } catch (Exception e) {
                 Log.warning("Failed to save component: " + component.getId());
                 Log.error(component, e);
                 return false;
+            }
+            long timeTaken = System.currentTimeMillis() - before;
+            if (timeTaken >= 5) {
+                Log.info("Saved component: " + component.getId() + " (" + Formatter.formatLong((System.currentTimeMillis() - before)) + "ms)");
             }
         }
         return true;
@@ -186,9 +186,9 @@ public abstract class ComponentManager extends JavaPlugin {
     }
 
     private void startAutoSave() {
-        int saveDelayInMinutes = 5;
+        int saveDelayInMinutes = 2;
         long saveDelay = saveDelayInMinutes * 60 * 20; // ticks
-        Bukkit.getScheduler().runTaskTimer(this, this::saveAll, saveDelay, saveDelay);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, this::saveAll, saveDelay, saveDelay);
     }
 
     private void registerCommandHandler() {

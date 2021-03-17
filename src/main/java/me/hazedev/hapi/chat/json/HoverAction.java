@@ -69,6 +69,7 @@ public class HoverAction {
             } catch (Exception e) {
                 Log.error(e);
             }
+            Log.debug(tag);
             JsonObject jsonItem = new JsonObject();
             jsonItem.addProperty("id", itemStack.getType().name().toLowerCase());
             jsonItem.addProperty("count", itemStack.getAmount());

@@ -2,6 +2,7 @@ package me.hazedev.hapi.userdata.properties;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import org.jetbrains.annotations.NotNull;
 
 public class BooleanProperty extends PrimitiveProperty<Boolean> {
 
@@ -10,12 +11,12 @@ public class BooleanProperty extends PrimitiveProperty<Boolean> {
     }
 
     @Override
-    public Boolean fromJsonElement(JsonElement element) {
+    public Boolean fromJsonElement(@NotNull JsonElement element) {
         return element.getAsJsonPrimitive().getAsBoolean();
     }
 
     @Override
-    public JsonPrimitive toJsonElement(Boolean value) {
+    public JsonPrimitive toJsonElement(@NotNull Boolean value) {
         return new JsonPrimitive(value);
     }
 

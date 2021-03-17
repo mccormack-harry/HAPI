@@ -10,10 +10,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LongStatistic extends Statistic<Long> {
 
-    protected Map<UUID, Long> memory = new HashMap<>();
+    protected final Map<UUID, Long> memory = new ConcurrentHashMap<>();
     private final Property<Long> userDataProperty;
 
     public LongStatistic(String id, String name, boolean permanent) {
@@ -37,17 +38,19 @@ public class LongStatistic extends Statistic<Long> {
     }
 
     @Override
-    public void load(Set<UserData> userDataSet) {
-        userDataSet.forEach(userData -> {
-            memory.put(userData.getProperty(UserData.UNIQUE_ID), userData.getProperty(manager.getPath(), userDataProperty, 0L));
+    public void load(UserDataManager userDataManager) {
+        userDataManager.getAllUserData().forEach(userData -> {
+            Long property = userData.getProperty(manager.getPath(), userDataProperty);
+            if (property != null) {
+                memory.put(userData.getProperty(UserData.UNIQUE_ID), userData.getProperty(manager.getPath(), userDataProperty, 0L));
+            }
         });
     }
 
     @Override
-    public void save(Set<UserData> userDataSet) {
-        UserDataManager userDataManager = manager.verifyHardDependency(UserDataManager.class);
+    public void save(UserDataManager userDataManager) {
         for (Map.Entry<UUID, Long> entry: memory.entrySet()) {
-            userDataManager.createUserData(entry.getKey()).setProperty(manager.getPath(), userDataProperty, entry.getValue());
+            userDataManager.getUserData(entry.getKey()).setProperty(manager.getPath(), userDataProperty, entry.getValue());
         }
 //        userDataSet.forEach(userData -> {
 //            userData.setProperty(manager.getPath(), userDataProperty, memory.get(userData.getProperty(UserData.UNIQUE_ID)));
@@ -55,8 +58,8 @@ public class LongStatistic extends Statistic<Long> {
     }
 
     @Override
-    public void reset(Set<UserData> userDataSet) {
-        userDataSet.forEach(userData -> {
+    public void reset(UserDataManager userDataManager) {
+        userDataManager.getAllUserData().forEach(userData -> {
             userData.unsetProperty(manager.getPath(), userDataProperty);
         });
         memory.clear();

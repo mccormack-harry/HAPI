@@ -15,6 +15,8 @@ import java.util.*;
 
 public class QuestManager extends Component implements Listener {
 
+    private UserDataManager userDataManager;
+
     public static final String PREFIX = CCUtils.addColor("&c[Quests] ");
     public static final String COLOR = CCUtils.GOLD;
 
@@ -28,6 +30,7 @@ public class QuestManager extends Component implements Listener {
 
     @Override
     public boolean onEnable() {
+        userDataManager = verifyHardDependency(UserDataManager.class);
         menu = new QuestsMainMenu(this);
         registerListener(new QuestUpdater(this));
         getCommand("quests").ifPresent(command -> command.setExecutor(new QuestCommandHandler(this)));
@@ -36,7 +39,7 @@ public class QuestManager extends Component implements Listener {
 
     @Override
     protected void reset() {
-        verifyHardDependency(UserDataManager.class).getAllUserData().forEach(userData -> userData.unsetProperty(getId()));
+        userDataManager.getAllUserData().forEach(userData -> userData.unsetProperty(getId()));
     }
 
     public void updateQuests(Player player) {
@@ -108,6 +111,10 @@ public class QuestManager extends Component implements Listener {
 
     public void showQuestMenu(Player player) {
         menu.open(player);
+    }
+
+    public UserDataManager getUserDataManager() {
+        return userDataManager;
     }
 
     @Override

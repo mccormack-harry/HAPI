@@ -78,7 +78,7 @@ public abstract class AbstractStatisticManager extends Component {
     }
 
     public void load(Statistic<?> statistic) {
-        statistic.load(userDataManager.getAllUserData());
+        statistic.load(userDataManager);
     }
 
     private void loadOldStats() {
@@ -101,7 +101,7 @@ public abstract class AbstractStatisticManager extends Component {
     }
 
     public void save(Statistic<?> statistic) {
-        statistic.save(userDataManager.getAllUserData());
+        statistic.save(userDataManager);
     }
 
     public void resetAll() {
@@ -110,7 +110,7 @@ public abstract class AbstractStatisticManager extends Component {
 
     public void reset(Statistic<?> statistic) {
         if (statistic.isPermanent()) return;
-        statistic.reset(userDataManager.getAllUserData());
+        statistic.reset(userDataManager);
     }
 
     private void registerListeners() {
