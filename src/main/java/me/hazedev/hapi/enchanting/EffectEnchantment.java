@@ -46,7 +46,7 @@ public class EffectEnchantment extends CustomEnchantment implements Listener {
 
     }
 
-    private void updateEffect(Player player, int level) {
+    protected void updateEffect(Player player, int level) {
         if (level > 0) {
             player.addPotionEffect(new PotionEffect(potionEffectType, Integer.MAX_VALUE, level - 1, false, false, true));
             activated.add(player.getUniqueId());
