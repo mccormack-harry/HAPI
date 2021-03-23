@@ -175,11 +175,6 @@ public class ReflectionUtils {
         boolean hasField(Object target);
     }
 
-    private static class InvalidMarker {
-        public Void invalidFieldMarker;
-        public void invalidMethodMaker() {}
-    }
-
     private ReflectionUtils() {}
 
 }
