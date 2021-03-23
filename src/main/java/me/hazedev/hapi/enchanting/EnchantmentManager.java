@@ -1,9 +1,12 @@
 package me.hazedev.hapi.enchanting;
 
 import me.hazedev.hapi.component.Component;
+import me.hazedev.hapi.enchanting.toggle.EnchantToggleCommand;
+import me.hazedev.hapi.enchanting.toggle.ToggleableEnchantment;
 import me.hazedev.hapi.event.EnchantEvent;
 import me.hazedev.hapi.inventory.DynamicItems;
 import me.hazedev.hapi.logging.Log;
+import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -58,6 +61,9 @@ public class EnchantmentManager {
             }
             if (enchantment instanceof Listener) {
                 component.registerListener((Listener) enchantment);
+            }
+            if (enchantment instanceof ToggleableEnchantment) {
+                CommandMapUtils.register(component, new EnchantToggleCommand<>((EnchantmentInfo & ToggleableEnchantment) enchantment));
             }
         }
     }
