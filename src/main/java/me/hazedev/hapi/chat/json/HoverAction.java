@@ -2,7 +2,7 @@ package me.hazedev.hapi.chat.json;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import me.hazedev.hapi.ReflectionUtils;
+import me.hazedev.hapi.nms.ReflectionUtils;
 import me.hazedev.hapi.logging.Log;
 import org.bukkit.inventory.ItemStack;
 

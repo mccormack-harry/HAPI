@@ -1,4 +1,4 @@
-package me.hazedev.hapi;
+package me.hazedev.hapi.nms;
 
 import me.hazedev.hapi.logging.Log;
 import org.bukkit.Bukkit;
