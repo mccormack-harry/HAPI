@@ -21,11 +21,13 @@ public interface ToggleableEnchantment {
     }
 
     default void setEnabled(UUID uniqueId) {
-        disabled.add(uniqueId);
+        disabled.remove(uniqueId);
+        onToggle(uniqueId);
     }
 
     default void setDisabled(UUID uniqueId) {
-        disabled.remove(uniqueId);
+        disabled.add(uniqueId);
+        onToggle(uniqueId);
     }
 
     default void onToggle(UUID uniqueId) {};
