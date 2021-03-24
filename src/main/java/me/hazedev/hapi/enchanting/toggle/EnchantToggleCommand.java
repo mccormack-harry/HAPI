@@ -16,8 +16,9 @@ public class EnchantToggleCommand<T extends EnchantmentInfo & ToggleableEnchantm
 
     public EnchantToggleCommand(T enchantment) {
         super(enchantment.getId(),
-                CCUtils.addColor("Toggles the " + enchantment.getDisplayName() + " &renchantment"),
-                enchantment.getId(), new ArrayList<>());
+                CCUtils.addColor("Toggles the " + enchantment.getDisplayColor() + enchantment.getName() + " &renchantment"), // Doesn't support hex
+                "/" + enchantment.getId(),
+                new ArrayList<>());
         this.enchantment = enchantment;
     }
 
@@ -27,7 +28,8 @@ public class EnchantToggleCommand<T extends EnchantmentInfo & ToggleableEnchantm
         if (sender instanceof Player) {
             player = (Player) sender;
             enchantment.toggle(player.getUniqueId());
-            ChatUtils.sendMessage(player, "&aToggled " + enchantment.getDisplayName());
+            String status = enchantment.isEnabled(player.getUniqueId()) ? "Enabled" : "Disabled";
+            ChatUtils.sendMessage(player, "&a" + status + " " + enchantment.getDisplayName());
         } else {
             ChatUtils.sendMessage(sender, "&cYou must be a player!");
         }
