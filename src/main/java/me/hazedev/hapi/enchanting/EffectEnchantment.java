@@ -2,6 +2,7 @@ package me.hazedev.hapi.enchanting;
 
 import me.hazedev.hapi.event.EnchantEvent;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,27 +33,37 @@ public class EffectEnchantment extends CustomEnchantment implements Listener {
     @EventHandler
     public void onPlayerSwitchItem(PlayerItemHeldEvent event){
         Player player = event.getPlayer();
-        int level = getManager().getEnchantmentLevel(player.getInventory().getItem(event.getNewSlot()), this);
-        updateEffect(player, level);
+        Bukkit.getScheduler().runTask(manager.getComponent().getPlugin(), () -> updateEffect(player));
     }
 
     @EventHandler
     public void onEnchantEvent(EnchantEvent event) {
         if (event.getEnchantment() == this) {
             Player player = event.getPlayer();
-            int level = event.getCurrentLevel();
-            updateEffect(player, level);
+            Bukkit.getScheduler().runTask(manager.getComponent().getPlugin(), () -> updateEffect(player));
         }
-
     }
 
-    private void updateEffect(Player player, int level) {
+    protected void removeEffect(Player player) {
+        if (activated.contains(player.getUniqueId())) {
+            player.removePotionEffect(potionEffectType);
+            activated.remove(player.getUniqueId());
+        }
+    }
+
+    protected void addEffect(Player player, int level) {
         if (level > 0) {
             player.addPotionEffect(new PotionEffect(potionEffectType, Integer.MAX_VALUE, level - 1, false, false, true));
             activated.add(player.getUniqueId());
-        } else if (activated.contains(player.getUniqueId())) {
-            player.removePotionEffect(potionEffectType);
-            activated.remove(player.getUniqueId());
+        }
+    }
+
+    protected void updateEffect(Player player) {
+        int level = getManager().getEnchantmentLevel(player, this);
+        if (level > 0) {
+            addEffect(player, level);
+        } else {
+            removeEffect(player);
         }
     }
 

@@ -113,14 +113,6 @@ public class CustomEnchantment extends Enchantment implements EnchantmentInfo {
         return displayMaterial;
     }
 
-    public String getDisplayName() {
-        if (mainColour == secondaryColor) {
-            return mainColour + getName();
-        } else {
-            return CCUtils.applyFade(getName(), mainColour, secondaryColor);
-        }
-    }
-
     public boolean isTarget(EnchantmentTarget target) {
         for (EnchantmentTarget included: targets) {
             if (target == included) {

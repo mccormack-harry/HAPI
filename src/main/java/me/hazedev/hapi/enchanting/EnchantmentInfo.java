@@ -12,6 +12,10 @@ public interface EnchantmentInfo {
 
     String getName();
 
+    default String getDisplayName() {
+        return applyColor(getName());
+    }
+
     String getDescription();
 
     ChatColor getDisplayColor();
