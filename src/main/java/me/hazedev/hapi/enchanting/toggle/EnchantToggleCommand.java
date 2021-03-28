@@ -8,7 +8,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 public class EnchantToggleCommand<T extends EnchantmentInfo & ToggleableEnchantment> extends BukkitCommand {
 
@@ -18,7 +18,7 @@ public class EnchantToggleCommand<T extends EnchantmentInfo & ToggleableEnchantm
         super(enchantment.getId(),
                 CCUtils.addColor("Toggles the " + enchantment.getDisplayColor() + enchantment.getName() + " &renchantment"), // Doesn't support hex
                 "/" + enchantment.getId(),
-                new ArrayList<>());
+                Collections.emptyList());
         this.enchantment = enchantment;
     }
 
