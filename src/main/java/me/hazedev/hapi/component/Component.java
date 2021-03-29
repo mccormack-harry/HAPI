@@ -2,9 +2,11 @@ package me.hazedev.hapi.component;
 
 import me.hazedev.hapi.io.YamlFileHandler;
 import me.hazedev.hapi.logging.Log;
+import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.event.Listener;
 
 import java.io.File;
@@ -54,6 +56,10 @@ public class Component {
 
     public final Optional<PluginCommand> getCommand(String name) {
         return Optional.ofNullable(componentManager.getCommand(name));
+    }
+
+    public final boolean registerCommand(BukkitCommand command) {
+        return CommandMapUtils.register(this, command);
     }
 
     public final boolean registerListener(Listener listener) {
