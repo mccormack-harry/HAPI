@@ -54,9 +54,6 @@ public class CombiningLongStatistic extends LongStatistic {
     public void reset(UserDataManager userDataManager) {}
 
     @Override
-    public void loadOld() {}
-
-    @Override
     protected void increment(UUID uniqueId, long amount) {}
 
     @Override

@@ -2,14 +2,12 @@ package me.hazedev.hapi.stats;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.hazedev.hapi.component.Component;
-import me.hazedev.hapi.io.YamlFileHandler;
 import me.hazedev.hapi.logging.Log;
 import me.hazedev.hapi.userdata.UserDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
 public abstract class AbstractStatisticManager extends Component {
 
     private UserDataManager userDataManager;
-    private final List<Statistic> statistics = new ArrayList<>();
+    private final List<Statistic<?>> statistics = new ArrayList<>();
 
     public AbstractStatisticManager() {
         super("statistics");
@@ -79,21 +77,6 @@ public abstract class AbstractStatisticManager extends Component {
 
     public void load(Statistic<?> statistic) {
         statistic.load(userDataManager);
-    }
-
-    private void loadOldStats() {
-        for (Statistic<?> statistic: statistics) {
-            YamlFileHandler oldFileHandler;
-            try {
-                oldFileHandler = getYamlFileHandler(statistic.getId() + ".yml");
-            } catch (IOException e) {
-                Log.warning(this, "Failed to open file for " + statistic.getId());
-                Log.error(this, e);
-                continue;
-            }
-            statistic.oldFileHandler = oldFileHandler;
-            statistic.loadOld();
-        }
     }
 
     public void saveAll() {
