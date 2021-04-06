@@ -5,20 +5,21 @@ import me.hazedev.hapi.logging.Log;
 import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class Component {
+public abstract class Component {
 
     ComponentManager componentManager;
     boolean enabled;
     final String id;
-    final Set<Listener> listeners = new HashSet<>(0);
+    final Set<Listener> listeners = new HashSet<>();
+    final Set<Command> commands = new HashSet<>();
 
     public Component(String id) {
         this.id = id;
@@ -58,8 +59,12 @@ public class Component {
         return Optional.ofNullable(componentManager.getCommand(name));
     }
 
-    public final boolean registerCommand(BukkitCommand command) {
-        return CommandMapUtils.register(this, command);
+    public final boolean registerCommand(Command command) {
+        if (CommandMapUtils.register(this, command)) {
+            commands.add(command);
+            return true;
+        }
+        return false;
     }
 
     public final boolean registerListener(Listener listener) {

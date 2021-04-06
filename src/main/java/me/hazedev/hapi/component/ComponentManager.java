@@ -2,7 +2,9 @@ package me.hazedev.hapi.component;
 
 import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.logging.Log;
+import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
@@ -130,6 +132,9 @@ public abstract class ComponentManager extends JavaPlugin {
                 Log.error(e);
             }
             component.enabled = false;
+            for (Command command: component.commands) {
+                CommandMapUtils.unregister(command);
+            }
             if (component instanceof Listener) {
                 HandlerList.unregisterAll((Listener) component);
             }

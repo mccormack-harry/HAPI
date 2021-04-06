@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class ComponentCommandHandler extends CommandHandler {
+public final class ComponentCommandHandler extends CommandHandler {
 
     private final ComponentManager manager;
     private final Validator<Component> componentValidator = new ComponentValidator();
