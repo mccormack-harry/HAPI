@@ -1,6 +1,5 @@
 package me.hazedev.hapi.stats;
 
-import me.hazedev.hapi.io.YamlFileHandler;
 import me.hazedev.hapi.userdata.UserDataManager;
 import org.apache.commons.lang.WordUtils;
 
@@ -9,7 +8,6 @@ import java.util.*;
 public abstract class Statistic<T> {
 
     protected AbstractStatisticManager manager;
-    protected YamlFileHandler oldFileHandler;
 
     private final String id;
     private final String name;
@@ -44,8 +42,6 @@ public abstract class Statistic<T> {
     public abstract void save(UserDataManager userDataManager);
 
     public abstract void reset(UserDataManager userDataManager);
-
-    public abstract void loadOld();
 
     public abstract int compare(T t1, T t2);
 

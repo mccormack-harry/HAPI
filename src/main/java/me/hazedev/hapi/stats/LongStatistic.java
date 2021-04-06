@@ -7,9 +7,10 @@ import me.hazedev.hapi.userdata.UserDataManager;
 import me.hazedev.hapi.userdata.properties.LongProperty;
 import me.hazedev.hapi.userdata.properties.Property;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LongStatistic extends Statistic<Long> {
@@ -63,20 +64,6 @@ public class LongStatistic extends Statistic<Long> {
             userData.unsetProperty(manager.getPath(), userDataProperty);
         });
         memory.clear();
-    }
-
-    @Override
-    public void loadOld() {
-        YamlConfiguration storage = oldFileHandler.getConfiguration();
-        for (String key : storage.getKeys(false)) {
-            UUID uniqueId;
-            try {
-                uniqueId = UUID.fromString(key);
-            } catch (IllegalArgumentException ignored) {
-                continue;
-            }
-            memory.put(uniqueId, storage.getLong(key));
-        }
     }
 
     @Override
