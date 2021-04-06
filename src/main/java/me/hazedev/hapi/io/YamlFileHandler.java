@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class YamlFileHandler {
 
-    final File file;
-    YamlConfiguration configuration;
+    protected final File file;
+    protected YamlConfiguration configuration;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public YamlFileHandler(File yamlFile) throws IOException {
