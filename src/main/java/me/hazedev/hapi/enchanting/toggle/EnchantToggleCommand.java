@@ -3,14 +3,14 @@ package me.hazedev.hapi.enchanting.toggle;
 import me.hazedev.hapi.chat.CCUtils;
 import me.hazedev.hapi.chat.ChatUtils;
 import me.hazedev.hapi.enchanting.EnchantmentInfo;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
-public class EnchantToggleCommand<T extends EnchantmentInfo & ToggleableEnchantment> extends BukkitCommand {
+public class EnchantToggleCommand<T extends EnchantmentInfo & ToggleableEnchantment> extends Command {
 
     final T enchantment;
 
