@@ -22,7 +22,12 @@ public class Disposal extends Component implements Listener {
 
     public Disposal() {
         super("disposal");
+    }
+
+    @Override
+    protected boolean onEnable() {
         registerCommand(new DisposalCommand());
+        return true;
     }
 
     public void openDisposalMenu(HumanEntity player) {
