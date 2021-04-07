@@ -43,6 +43,13 @@ public class Rules extends Component {
                 Log.error(this, e);
                 Log.warning(this, "Failed to read rules file");
             }
+        } else {
+            try {
+                rulesFile.createNewFile();
+            } catch (IOException e) {
+                Log.error(this, e);
+                Log.warning("Failed to create rules.txt");
+            }
         }
         return true;
     }
