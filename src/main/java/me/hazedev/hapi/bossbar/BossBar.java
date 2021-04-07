@@ -1,7 +1,7 @@
 package me.hazedev.hapi.bossbar;
 
-import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.chat.CCUtils;
+import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.io.YamlFileHandler;
 import me.hazedev.hapi.logging.Log;
 import org.bukkit.Bukkit;
@@ -50,8 +50,7 @@ public class BossBar extends Component implements Listener {
         bossBar = Bukkit.createBossBar(CCUtils.addColor(title), color, BarStyle.SOLID);
         bossBar.setProgress(progress);
         bossBar.setVisible(true);
-
-        getCommand("bossbar").ifPresent(command -> command.setExecutor(new BossBarCommandHandler(this)));
+        registerCommand(new BossBarCommandHandler(this));
         return true;
     }
 

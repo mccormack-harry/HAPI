@@ -4,14 +4,15 @@ import me.hazedev.hapi.command.CommandHandler;
 import me.hazedev.hapi.command.SubCommand;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
+
 public class QuestCommandHandler extends CommandHandler {
 
     final QuestManager manager;
 
     public QuestCommandHandler(QuestManager manager) {
-        super("quests", "list");
+        super("quests", "View your quests", Collections.singletonList("q"),  "list");
         this.manager = manager;
-
         registerSubCommand(new List());
     }
 

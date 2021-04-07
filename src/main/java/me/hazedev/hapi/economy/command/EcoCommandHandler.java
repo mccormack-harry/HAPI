@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EcoCommandHandler extends CommandHandler {
@@ -20,7 +21,7 @@ public class EcoCommandHandler extends CommandHandler {
     private final CurrencyValidator currencyValidator;
 
     public EcoCommandHandler(AbstractCurrencyManager manager) {
-        super("eco");
+        super("economy", "Economy management", Collections.singletonList("eco"));
         this.manager = manager;
         currencyValidator = new CurrencyValidator();
         registerSubCommand(new Give());

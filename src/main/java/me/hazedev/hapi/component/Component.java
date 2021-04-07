@@ -6,12 +6,14 @@ import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public abstract class Component {
 
@@ -55,28 +57,23 @@ public abstract class Component {
         }
     }
 
-    public final Optional<PluginCommand> getCommand(String name) {
-        return Optional.ofNullable(componentManager.getCommand(name));
-    }
-
-    public final boolean registerCommand(Command command) {
+    public final void registerCommand(Command command) {
         if (CommandMapUtils.register(this, command)) {
             commands.add(command);
-            return true;
+        } else {
+            Log.warning(this, "Failed to register command: " + command.getName() + " | class:" + command.getClass().getName());
         }
-        return false;
     }
 
-    public final boolean registerListener(Listener listener) {
+    public final void registerListener(Listener listener) {
         try {
             Bukkit.getPluginManager().registerEvents(listener, getPlugin());
         } catch (Exception e) {
-            Log.warning("Failed to register listener");
+            Log.warning(this, "Failed to register listener: " + listener.getClass().getName());
             Log.error(this, e);
-            return false;
+            return;
         }
         listeners.add(listener);
-        return true;
     }
 
     public final NamespacedKey getNamespacedKey(String key) {

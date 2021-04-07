@@ -1,14 +1,15 @@
 package me.hazedev.hapi.bossbar;
 
+import me.hazedev.hapi.chat.ChatUtils;
 import me.hazedev.hapi.command.Argument;
+import me.hazedev.hapi.command.CommandHandler;
 import me.hazedev.hapi.command.SubCommand;
 import me.hazedev.hapi.validation.Validators;
-import me.hazedev.hapi.chat.ChatUtils;
-import me.hazedev.hapi.command.CommandHandler;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.boss.BarColor;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
 import java.util.List;
 
 public class BossBarCommandHandler extends CommandHandler {
@@ -16,7 +17,7 @@ public class BossBarCommandHandler extends CommandHandler {
     BossBar bossBar;
 
     public BossBarCommandHandler(BossBar bossBar) {
-        super("bossbar");
+        super("bossbar", "Bossbar command", Collections.singletonList("bb"));
         this.bossBar = bossBar;
 
         registerSubCommand(new Title());

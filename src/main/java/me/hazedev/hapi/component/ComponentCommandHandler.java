@@ -16,7 +16,7 @@ public final class ComponentCommandHandler extends CommandHandler {
     private final Validator<Component> componentValidator = new ComponentValidator();
 
     public ComponentCommandHandler(ComponentManager manager) {
-        super("components", "list");
+        super("components", "ComponentManager command", null,  "list");
         this.manager =  manager;
         registerSubCommand(new List());
         registerSubCommand(new Reload());

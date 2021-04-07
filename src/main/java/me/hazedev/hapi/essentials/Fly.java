@@ -1,6 +1,7 @@
-package me.hazedev.hapi.fly;
+package me.hazedev.hapi.essentials;
 
 import me.hazedev.hapi.chat.ChatUtils;
+import me.hazedev.hapi.command.CommandDelegator;
 import me.hazedev.hapi.component.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +22,7 @@ public class Fly extends Component implements Listener, CommandExecutor {
 
     @Override
     protected boolean onEnable() {
-        getCommand("fly").ifPresent(command -> command.setExecutor(this));
+        registerCommand(new CommandDelegator(this, "fly", "Toggle the ability to fly!", "/fly", null));
         return true;
     }
 

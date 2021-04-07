@@ -6,20 +6,22 @@ import me.hazedev.hapi.validation.Validator;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public abstract class CommandHandler implements TabExecutor {
-
-    public static final String NO_PERM = "&cYou don't have permission to use this command!";
+public abstract class CommandHandler extends Command {
 
     protected Set<SubCommand> subCommands = new HashSet<>(0);
-    private final String permissionPrefix;
     private final String defaultSubCommand;
 
-    public CommandHandler(String permissionPrefix, String defaultSubCommand) {
-        this.permissionPrefix = permissionPrefix;
+    public CommandHandler(@NotNull String name, @NotNull String description, @Nullable List<String> aliases) {
+        this(name, description, aliases, null);
+    }
+
+    public CommandHandler(@NotNull String name, @NotNull String description, @Nullable List<String> aliases, @Nullable String defaultSubCommand) {
+        super(name, description, "/" + name + "help", Collections.emptyList());
         if (defaultSubCommand != null) {
             this.defaultSubCommand = defaultSubCommand;
         } else {
@@ -28,9 +30,7 @@ public abstract class CommandHandler implements TabExecutor {
         registerSubCommand(new Help());
     }
 
-    public CommandHandler(String permissionPrefix) {
-        this(permissionPrefix, "help");
-    }
+
 
     protected void registerSubCommand(SubCommand subCommand) {
         if (subCommand != null) {
@@ -70,11 +70,11 @@ public abstract class CommandHandler implements TabExecutor {
     }
 
     public boolean hasPermission(CommandSender sender, SubCommand subCommand) {
-        return sender.hasPermission(permissionPrefix + "." + subCommand.getName().toLowerCase());
+        return sender.hasPermission(getName().toLowerCase() + "." + subCommand.getName().toLowerCase());
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String label, String[] args) {
 
         String subLabel = null;
         if (args.length > 0) {
@@ -117,7 +117,7 @@ public abstract class CommandHandler implements TabExecutor {
                 }
                 // Attempt to run command
                 try {
-                    subCommand.onCommand(sender, command, subLabel, arguments, flags);
+                    subCommand.onCommand(sender, this, subLabel, arguments, flags);
                     return true;
                 } catch (IllegalArgumentException e) {
                     ChatUtils.sendMessage(sender, "&c" + e.getMessage());
@@ -128,7 +128,7 @@ public abstract class CommandHandler implements TabExecutor {
                 if (customMsg != null) {
                     ChatUtils.sendMessage(sender, "&c" + customMsg);
                 } else {
-                    ChatUtils.sendMessage(sender, NO_PERM);
+                    ChatUtils.sendMessage(sender, CommandHelper.NO_PERM);
                 }
                 return true;
             }
@@ -138,8 +138,9 @@ public abstract class CommandHandler implements TabExecutor {
         }
     }
 
+    @NotNull
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String label, String[] args) {
         List<String> result = new ArrayList<>(0);
         if (args.length == 1) { // Suggest sub commands
             for (SubCommand subCommand : subCommands) {
@@ -242,7 +243,7 @@ public abstract class CommandHandler implements TabExecutor {
                 List<String> help = new ArrayList<>(0);
                 help.add("&6Help for /" + command.getName());
                 for (SubCommand subCommand: subCommands) {
-                    if (subCommand != null && sender.hasPermission(permissionPrefix + "." + subCommand.name)) {
+                    if (subCommand != null && hasPermission(sender, subCommand)) {
                         help.add("&e" + getUsage(subCommand, command.getName()));
                     }
                 }
