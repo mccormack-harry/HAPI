@@ -1,8 +1,9 @@
 package me.hazedev.hapi.io;
 
-import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.Consumer;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class YamlFileHandler {
         configuration = YamlConfiguration.loadConfiguration(file);
     }
 
-    public void save() throws IOException {
+    public void saveConfig() throws IOException {
         configuration.save(file);
     }
 
@@ -34,12 +35,15 @@ public class YamlFileHandler {
         return file;
     }
 
+    @NotNull
     public YamlConfiguration getConfiguration() {
         return configuration;
     }
 
-    public void setDefaults(Consumer<Configuration> defaults) throws IOException {
-        defaults.accept(configuration);
+    public void setDefaults(Consumer<MemoryConfiguration> defaults) throws IOException {
+        MemoryConfiguration defaultsSection = new MemoryConfiguration();
+        defaults.accept(defaultsSection);
+        configuration.addDefaults(defaultsSection);
         configuration.options().copyDefaults(true);
         configuration.save(file);
     }
