@@ -1,10 +1,12 @@
 package me.hazedev.hapi.util;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
@@ -570,6 +572,107 @@ public final class FakeBlockBreakUtils {
         @NotNull
         @Override
         public PersistentDataContainer getPersistentDataContainer() {
+            throw new UnsupportedOperationException();
+        }
+
+        // PAPER specific
+
+
+        @Override
+        public boolean canMobPickup() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setCanMobPickup(boolean canMobPickup) {
+            throw new UnsupportedOperationException();
+
+        }
+
+        @Override
+        public boolean canPlayerPickup() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setCanPlayerPickup(boolean canPlayerPickup) {
+            throw new UnsupportedOperationException();
+
+        }
+
+        @Override
+        public boolean willAge() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setWillAge(boolean willAge) {
+            throw new UnsupportedOperationException();
+
+        }
+
+        @Override
+        public @Nullable Location getOrigin() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean fromMobSpawner() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public @NotNull Chunk getChunk() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public @NotNull CreatureSpawnEvent.SpawnReason getEntitySpawnReason() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isInRain() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isInBubbleColumn() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isInWaterOrRain() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isInWaterOrBubbleColumn() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isInWaterOrRainOrBubbleColumn() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isInLava() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isTicking() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public @Nullable Component customName() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void customName(@Nullable Component customName) {
             throw new UnsupportedOperationException();
         }
     }
