@@ -1,4 +1,8 @@
 # HAPI
+![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fhazedev.me%2Fjenkins%2Fjob%2FHAPI%2F&label=build)
+![GitHub issues](https://img.shields.io/github/issues/haz8989/HAPI)
+![GitHub last commit](https://img.shields.io/github/last-commit/haz8989/HAPI)
+![Lines of code](https://img.shields.io/tokei/lines/github/haz8989/HAPI)
 #### WARNING! HAPI is in a beta state and is not recommended for use in production servers, expect major changes in API!<br>
 HAPI (HazeDev's API) is an API to assist in the creation of Spigot plugins.
 This is targeted for developers who write a lot of features for a single server.
