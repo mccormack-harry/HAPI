@@ -103,7 +103,7 @@ public class Warp {
         c.set("pitch", pitch);
         c.set("yaw", yaw);
         try {
-            fileHandler.save();
+            fileHandler.saveConfig();
         } catch (IOException e) {
             Log.error(e);
         }

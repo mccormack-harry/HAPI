@@ -110,9 +110,9 @@ public abstract class AbstractStatisticManager extends Component {
     }
 
     private void registerCommands() {
-        getCommand("stats").ifPresent(pluginCommand -> pluginCommand.setExecutor(new StatsCommandHandler(this)));
-        getCommand("stat").ifPresent(pluginCommand -> pluginCommand.setExecutor(new StatCommandHandler(this)));
-        getCommand("top").ifPresent(pluginCommand -> pluginCommand.setExecutor(new TopCommandHandler(this)));
+        registerCommand(new CommandStats(this));
+        registerCommand(new CommandStat(this));
+        registerCommand(new CommandTop(this));
     }
 
     private void registerPlaceholders() {
@@ -133,7 +133,7 @@ public abstract class AbstractStatisticManager extends Component {
         }
     }
 
-    public List<Statistic> getStatistics() {
+    public List<Statistic<?>> getStatistics() {
         return Collections.unmodifiableList(statistics);
     }
 }

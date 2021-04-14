@@ -1,12 +1,15 @@
 package me.hazedev.hapi.enchanting;
 
 import me.hazedev.hapi.chat.CCUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 
 public class CustomEnchantment extends Enchantment implements EnchantmentInfo {
@@ -130,6 +133,12 @@ public class CustomEnchantment extends Enchantment implements EnchantmentInfo {
             }
         }
         return false;
+    }
+
+    // Implementing kyori method so dependencies don't have to
+    @Override
+    public @NotNull Component displayName(int level) {
+        return Component.text(getName() + " " + level, TextColor.color(getDisplayColor().getColor().getRGB()));
     }
 
     @Override @Deprecated

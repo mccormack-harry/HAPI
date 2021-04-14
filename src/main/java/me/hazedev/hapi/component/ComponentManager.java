@@ -5,7 +5,6 @@ import me.hazedev.hapi.logging.Log;
 import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -32,7 +31,7 @@ public abstract class ComponentManager extends JavaPlugin {
         enableComponents();
         checkReset();
         startAutoSave();
-        registerCommandHandler();
+        CommandMapUtils.register(this, new ComponentCommandHandler(this));
     }
 
     @Override
@@ -194,16 +193,6 @@ public abstract class ComponentManager extends JavaPlugin {
         int saveDelayInMinutes = 2;
         long saveDelay = saveDelayInMinutes * 60 * 20; // ticks
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, this::saveAll, saveDelay, saveDelay);
-    }
-
-    private void registerCommandHandler() {
-        final String commandName = "components";
-        PluginCommand command = this.getCommand(commandName);
-        if (command != null) {
-            command.setExecutor(new ComponentCommandHandler(this));
-        } else {
-            Log.warning("'" + commandName + "' command not registered in plugin.yml");
-        }
     }
 
     public class DependencyProcessor {

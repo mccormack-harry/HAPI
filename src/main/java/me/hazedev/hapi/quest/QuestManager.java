@@ -33,7 +33,7 @@ public class QuestManager extends Component implements Listener {
         userDataManager = verifyHardDependency(UserDataManager.class);
         menu = new QuestsMainMenu(this);
         registerListener(new QuestUpdater(this));
-        getCommand("quests").ifPresent(command -> command.setExecutor(new QuestCommandHandler(this)));
+        registerCommand(new QuestCommandHandler(this));
         return true;
     }
 

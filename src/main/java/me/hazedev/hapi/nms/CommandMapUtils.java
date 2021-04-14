@@ -27,7 +27,7 @@ public class CommandMapUtils {
     }
 
     public static boolean loadCommandMap() {
-        if (commandMap != null) {
+        if (commandMap == null) {
             try {
                 reloadCommandMap();
             } catch (IllegalAccessException | NoSuchFieldException e) {
