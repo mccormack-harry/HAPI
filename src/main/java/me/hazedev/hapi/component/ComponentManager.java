@@ -1,5 +1,6 @@
 package me.hazedev.hapi.component;
 
+import me.hazedev.gui.InventoryManager;
 import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.logging.Log;
 import me.hazedev.hapi.nms.CommandMapUtils;
@@ -32,6 +33,7 @@ public abstract class ComponentManager extends JavaPlugin {
         checkReset();
         startAutoSave();
         CommandMapUtils.register(this, new ComponentCommandHandler(this));
+        new InventoryManager(this).init();
     }
 
     @Override

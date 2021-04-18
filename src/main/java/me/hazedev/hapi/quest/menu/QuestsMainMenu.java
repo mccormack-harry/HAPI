@@ -1,9 +1,9 @@
 package me.hazedev.hapi.quest.menu;
 
-import fr.minuskube.inv.SmartInventory;
-import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.InventoryProvider;
-import fr.minuskube.inv.items.ClickableItem;
+import me.hazedev.gui.SmartInventory;
+import me.hazedev.gui.content.InventoryContents;
+import me.hazedev.gui.content.InventoryProvider;
+import me.hazedev.gui.items.ClickableItem;
 import me.hazedev.hapi.chat.CCUtils;
 import me.hazedev.hapi.inventory.ItemBuilder;
 import me.hazedev.hapi.quest.QuestManager;

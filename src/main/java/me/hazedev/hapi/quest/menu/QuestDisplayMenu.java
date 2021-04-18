@@ -1,6 +1,6 @@
 package me.hazedev.hapi.quest.menu;
 
-import fr.minuskube.inv.content.InventoryProvider;
+import me.hazedev.gui.content.InventoryProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

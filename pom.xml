@@ -6,7 +6,7 @@
 
     <groupId>me.hazedev</groupId>
     <artifactId>HAPI</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -33,6 +33,19 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <executions>
@@ -42,19 +55,12 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <minimizeJar>true</minimizeJar>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <artifactSet>
                                 <includes>
-                                    <include>fr.minuskube.inv:SmartInvs</include>
+                                    <include>me.hazedev:SmartInvs</include>
                                 </includes>
                             </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>fr.minuskube.inv</pattern>
-                                    <shadedPattern>me.hazedev.gui</shadedPattern>
-                                </relocation>
-                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -120,11 +126,10 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>fr.minuskube.inv</groupId>
+            <groupId>me.hazedev</groupId>
             <artifactId>SmartInvs</artifactId>
-            <version>1.3</version>
-            <scope>provided</scope>
-            <optional>true</optional>
+            <version>1.3.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
