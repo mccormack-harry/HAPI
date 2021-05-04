@@ -1,7 +1,8 @@
 package me.hazedev.hapi.chat.json;
 
 import com.google.gson.JsonArray;
-import me.hazedev.hapi.logging.Log;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -32,6 +33,10 @@ public class JsonMessage {
 
     public JsonMessage newLine() {
         return append("\n");
+    }
+
+    public Component serializeAdventure() {
+        return GsonComponentSerializer.gson().deserializeFromTree(serialize());
     }
 
     public JsonArray serialize() {
