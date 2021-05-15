@@ -109,7 +109,7 @@ public abstract class Component {
     /**
      * @return Whether the component has been successfully enabled
      */
-    protected boolean onEnable() {
+    protected boolean onEnable() throws Exception {
         return true;
     }
 

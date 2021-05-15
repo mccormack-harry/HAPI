@@ -21,7 +21,7 @@ public class Fly extends Component implements Listener, CommandExecutor {
     }
 
     @Override
-    protected boolean onEnable() {
+    protected boolean onEnable() throws Exception {
         registerCommand(new CommandDelegator(this, "fly", "Toggle the ability to fly!", "/fly", null));
         return true;
     }

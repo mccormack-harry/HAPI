@@ -22,7 +22,7 @@ public abstract class AbstractStatisticManager extends Component {
     }
 
     @Override
-    protected boolean onEnable() {
+    protected boolean onEnable() throws Exception {
         userDataManager = verifyHardDependency(UserDataManager.class);
         registerStatistics();
         loadAll();

@@ -29,7 +29,7 @@ public class QuestManager extends Component implements Listener {
     }
 
     @Override
-    public boolean onEnable() {
+    public boolean onEnable() throws Exception {
         userDataManager = verifyHardDependency(UserDataManager.class);
         menu = new QuestsMainMenu(this);
         registerListener(new QuestUpdater(this));

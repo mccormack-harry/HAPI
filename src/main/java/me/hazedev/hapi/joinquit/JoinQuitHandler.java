@@ -30,7 +30,7 @@ public class JoinQuitHandler extends Component implements Listener {
     }
 
     @Override
-    public boolean onEnable() {
+    public boolean onEnable() throws Exception {
         verifyHardDependency(UserDataManager.class).getAllUserData().forEach(userData -> {
             if (userData.getProperty(WELCOMED_PROPERTY, false)) {
                 this.welcomed.add(userData.getProperty(UserData.UNIQUE_ID));

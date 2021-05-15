@@ -27,7 +27,7 @@ public class UserDataManager extends Component implements Listener {
     }
 
     @Override
-    public boolean onEnable() {
+    public boolean onEnable() throws Exception {
         userDataFile = new File(getDataFolder(), "userdata.json");
         if (userDataFile.exists()) {
             try (FileReader fileReader = new FileReader(userDataFile)) {

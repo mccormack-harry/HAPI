@@ -20,7 +20,7 @@ public class BossBarComponent extends Component implements Listener {
     }
 
     @Override
-    public boolean onEnable() {
+    public boolean onEnable() throws Exception {
         YamlFileHandler fileHandler;
         try {
             fileHandler = getYamlFileHandler("bossbars.yml");

@@ -27,7 +27,7 @@ public abstract class AbstractCurrencyManager extends Component {
     }
 
     @Override
-    protected final boolean onEnable() {
+    protected final boolean onEnable() throws Exception {
         registerCurrencies();
         UserDataManager userDataManager = verifyHardDependency(UserDataManager.class);
         currencySet.forEach(currency -> {

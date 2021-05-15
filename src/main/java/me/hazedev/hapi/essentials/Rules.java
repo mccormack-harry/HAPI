@@ -23,7 +23,7 @@ public class Rules extends Component {
     }
 
     @Override
-    protected boolean onEnable() {
+    protected boolean onEnable() throws Exception {
         registerCommand(new CommandRules());
         rules = Collections.emptyList();
         reload();
