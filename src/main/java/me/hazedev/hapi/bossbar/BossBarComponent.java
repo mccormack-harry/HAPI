@@ -4,15 +4,18 @@ import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.io.YamlFileHandler;
 import me.hazedev.hapi.logging.Log;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 public class BossBarComponent extends Component implements Listener {
 
+    private NamespacedKey bossBarKey;
     private BossBarRenderer bossBarRenderer;
 
     public BossBarComponent() {
@@ -29,6 +32,7 @@ public class BossBarComponent extends Component implements Listener {
             Log.error(this, e);
             return false;
         }
+        bossBarKey = getNamespacedKey("bossbar");
         bossBarRenderer = new BossBarRenderer(this, fileHandler);
         return reload();
     }
@@ -44,6 +48,7 @@ public class BossBarComponent extends Component implements Listener {
     protected void onDisable() {
         bossBarRenderer.stop();
         bossBarRenderer = null;
+        Bukkit.removeBossBar(bossBarKey);
     }
 
     @EventHandler
@@ -56,4 +61,11 @@ public class BossBarComponent extends Component implements Listener {
         bossBarRenderer.removePlayer(event.getPlayer());
     }
 
+    public @NotNull NamespacedKey getBossBarKey() {
+        return bossBarKey;
+    }
+
+    public @NotNull BossBarRenderer getBossBarRenderer() {
+        return bossBarRenderer;
+    }
 }

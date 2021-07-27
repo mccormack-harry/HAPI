@@ -90,7 +90,9 @@ public class BossBarRenderer implements Runnable, YamlConfigurableFile {
                 activeIndex = 0;
                 activeTicks = 0;
                 activeConfiguration = bossBarConfigurations.get().get(0);
-                bossBar = Bukkit.createBossBar(CCUtils.addColor(activeConfiguration.title.get()), activeConfiguration.color.get(), BarStyle.SOLID);
+                if (bossBar == null) {
+                    bossBar = Bukkit.createBossBar(component.getBossBarKey(), CCUtils.addColor(activeConfiguration.title.get()), activeConfiguration.color.get(), BarStyle.SOLID);
+                }
                 bossBar.setVisible(true);
                 renderingTask = Bukkit.getScheduler().runTaskTimer(component.getPlugin(), this, 0, tickDelay.get());
             }
