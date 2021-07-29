@@ -109,4 +109,12 @@ public class UserData {
         }
     }
 
+    public UUID getUniqueId() {
+        return getProperty(UNIQUE_ID);
+    }
+
+    public String getName() {
+        return getProperty(NAME);
+    }
+
 }
