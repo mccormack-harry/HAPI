@@ -24,9 +24,9 @@ public class Rules extends Component {
 
     @Override
     protected boolean onEnable() throws Exception {
-        registerCommand(new CommandRules());
         rules = Collections.emptyList();
         reload();
+        registerCommand(new CommandRules());
         return true;
     }
 
@@ -43,11 +43,13 @@ public class Rules extends Component {
                 Log.error(this, e, "Failed to read rules file");
             }
         } else {
-            try {
-                rulesFile.createNewFile();
-            } catch (IOException e) {
-                Log.error(this, e);
-                Log.warning("Failed to create rules.txt");
+            if (rulesFile.getParentFile().mkdirs()) {
+                try {
+                    return rulesFile.createNewFile();
+                } catch (IOException e) {
+                    Log.error(this, e, "Failed to create rules.txt");
+                    return false;
+                }
             }
         }
         return true;
@@ -62,7 +64,11 @@ public class Rules extends Component {
         @Override
         public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] strings) {
             if (CommandHelper.checkPermission(sender, getName() + ".use")) {
-                ChatUtils.sendMessage(sender, rules);
+                if (rules.isEmpty()) {
+                    ChatUtils.sendMessage(sender, "&cThe rules file hasn't been configured");
+                } else {
+                    ChatUtils.sendMessage(sender, rules);
+                }
             }
             return true;
         }
