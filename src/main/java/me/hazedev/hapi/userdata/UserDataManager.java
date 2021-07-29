@@ -1,6 +1,8 @@
 package me.hazedev.hapi.userdata;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonStreamParser;
 import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.logging.Log;
 import me.hazedev.hapi.userdata.properties.Property;
@@ -11,7 +13,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

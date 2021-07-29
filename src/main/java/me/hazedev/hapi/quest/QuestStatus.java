@@ -5,6 +5,6 @@ public enum QuestStatus {
     UNAVAILABLE,
     AVAILABLE,
     ACTIVE,
-    FINISHED;
+    FINISHED
 
 }

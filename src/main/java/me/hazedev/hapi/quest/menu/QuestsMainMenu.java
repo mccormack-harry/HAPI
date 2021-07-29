@@ -24,7 +24,7 @@ public class QuestsMainMenu implements InventoryProvider {
                 .title(CCUtils.addColor("&6[Quests] &cMain Menu"))
                 .size(3, 9)
                 .provider(this)
-                .build();;
+                .build();
     }
 
     public void open(Player player) {

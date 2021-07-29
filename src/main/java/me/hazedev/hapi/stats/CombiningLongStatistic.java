@@ -3,7 +3,10 @@ package me.hazedev.hapi.stats;
 import me.hazedev.hapi.userdata.UserData;
 import me.hazedev.hapi.userdata.UserDataManager;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CombiningLongStatistic extends LongStatistic {
 
