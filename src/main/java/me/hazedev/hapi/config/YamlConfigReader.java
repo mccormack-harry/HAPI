@@ -48,8 +48,7 @@ public final class YamlConfigReader {
                         YamlOption<?> option = (YamlOption<?>) field.get(configurable);
                         if (option != null) result.add(option);
                     } catch (IllegalAccessException e) {
-                        Log.error(e);
-                        e.printStackTrace();
+                        Log.error(null, e, "Failed to access YamlOption field: " + field);
                     }
                 }
             }
@@ -77,7 +76,7 @@ public final class YamlConfigReader {
         try {
             configurableFile.saveConfig();
         } catch (IOException e) {
-            Log.error(e);
+            Log.error(null, e, "Failed to save defaults to config " + configurableFile.getFileName());
         }
     }
 
@@ -91,7 +90,7 @@ public final class YamlConfigReader {
         try {
             configurableFile.saveConfig();
         } catch (IOException e) {
-            Log.error(e);
+            Log.error(null, e, "Failed to save config " + configurableFile.getFileName());
         }
     }
 
@@ -109,8 +108,7 @@ public final class YamlConfigReader {
             try {
                 option.readValue(configuration);
             } catch (IllegalArgumentException e) {
-                Log.warning("Invalid configuration value in " + configurable.getRoot().getFileName() + "@" + (configurable instanceof ConfigurableSection ? ((ConfigurableSection) configurable).getPath() + "." : "") + option.getPath());
-                Log.error(e);
+                Log.error(null, e, "Invalid configuration value in " + configurable.getRoot().getFileName() + "@" + (configurable instanceof ConfigurableSection ? ((ConfigurableSection) configurable).getPath() + "." : "") + option.getPath());
             }
         }
     }

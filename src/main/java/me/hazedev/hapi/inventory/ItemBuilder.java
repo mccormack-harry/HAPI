@@ -51,7 +51,7 @@ public class ItemBuilder {
                 }
                 flags = itemMeta.getItemFlags();
             } else {
-                Log.warning("ItemMeta is null after hasItemMeta check???");
+                Log.warning(null, "ItemMeta is null after hasItemMeta check???");
             }
         }
     }

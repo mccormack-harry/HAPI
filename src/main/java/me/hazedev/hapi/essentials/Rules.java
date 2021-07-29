@@ -40,8 +40,7 @@ public class Rules extends Component {
                     this.rules = rules;
                 }
             } catch (IOException e) {
-                Log.error(this, e);
-                Log.warning(this, "Failed to read rules file");
+                Log.error(this, e, "Failed to read rules file");
             }
         } else {
             try {

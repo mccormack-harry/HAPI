@@ -28,8 +28,7 @@ public class BossBarComponent extends Component implements Listener {
         try {
             fileHandler = getYamlFileHandler("bossbars.yml");
         } catch (IOException e) {
-            Log.warning(this, "Failed to open config");
-            Log.error(this, e);
+            Log.error(this, e, "Failed to open config");
             return false;
         }
         bossBarKey = getNamespacedKey("bossbar");

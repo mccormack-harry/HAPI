@@ -102,8 +102,7 @@ public abstract class AbstractStatisticManager extends Component {
                 try {
                     registerListener((Listener) statistic);
                 } catch(Exception e) {
-                    Log.warning(this, "Failed to register listener for " + statistic.getId());
-                    Log.error(this, e);
+                    Log.error(this, e, "Failed to register listener for " + statistic.getId());
                 }
             }
         }

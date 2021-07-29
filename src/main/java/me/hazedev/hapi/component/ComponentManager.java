@@ -48,10 +48,10 @@ public abstract class ComponentManager extends JavaPlugin {
             if (getComponent(component.getClass()) == null) {
                 components.add(component);
             } else {
-                Log.warning("Attempted to register duplicate component: " + component.getClass().getName());
+                Log.warning(component, "Component is already registered");
             }
         } else {
-            throw new IllegalStateException("Components must only be registered in registerComponents() implementation");
+            throw new IllegalStateException("Components must only be registered in ComponentManager#registerComponents()");
         }
     }
 
@@ -97,16 +97,14 @@ public abstract class ComponentManager extends JavaPlugin {
                 try {
                     component.enabled = component.onEnable();
                 } catch (Exception e) {
-                    Log.warning("Failed to enable component: " + id + " (" + component.getClass().getName() + ")");
-                    Log.error(component, e);
+                    Log.error(component, e, "Failed to enable component");
                     continue;
                 }
                 if (component.enabled && component instanceof Listener) {
                     try {
                         Bukkit.getPluginManager().registerEvents((Listener) component, this);
                     } catch (Exception e) {
-                        Log.warning("Failed to register Component as listener: " + id);
-                        Log.error(component, e);
+                        Log.error(component, e, "Failed to register Component as listener");
                     }
                 }
             }
@@ -115,7 +113,7 @@ public abstract class ComponentManager extends JavaPlugin {
         try {
             config.save(file);
         } catch (IOException e) {
-            Log.error(e);
+            Log.error(null, e, null);
         }
     }
 
@@ -129,8 +127,7 @@ public abstract class ComponentManager extends JavaPlugin {
             try {
                 component.onDisable();
             } catch (Exception e) {
-                Log.warning("An error occurred while disabling a component: " + component.getClass().getName());
-                Log.error(e);
+                Log.error(component, e, "An error occurred while disabling a component");
             }
             component.enabled = false;
             for (Command command: component.commands) {
@@ -156,13 +153,12 @@ public abstract class ComponentManager extends JavaPlugin {
             try {
                 component.save();
             } catch (Exception e) {
-                Log.warning("Failed to save component: " + component.getId());
-                Log.error(component, e);
+                Log.error(component, e, "Failed to save component");
                 return false;
             }
             long timeTaken = System.currentTimeMillis() - before;
             if (timeTaken >= 5) {
-                Log.info("Saved component: " + component.getId() + " (" + Formatter.formatLong((System.currentTimeMillis() - before)) + "ms)");
+                Log.info(component, "Saved in " + Formatter.formatLong((System.currentTimeMillis() - before)) + "ms");
             }
         }
         return true;
@@ -185,8 +181,7 @@ public abstract class ComponentManager extends JavaPlugin {
             try {
                 component.reset();
             } catch (Exception e) {
-                Log.warning("Failed to reset component: " + component.getId());
-                Log.error(component, e);
+                Log.error(component, e, "Failed to reset component");
             }
         }
     }
@@ -207,9 +202,6 @@ public abstract class ComponentManager extends JavaPlugin {
                 addComponentAndDependencies(component);
             }
             components = Collections.unmodifiableList(ordered);
-            StringBuilder componentOrder = new StringBuilder();
-            ordered.forEach(component -> componentOrder.append(component.getId()).append(", "));
-            Log.info(componentOrder.toString());
         }
 
         public void addComponentAndDependencies(Component component) {
@@ -221,7 +213,7 @@ public abstract class ComponentManager extends JavaPlugin {
                         if (dependency != null) {
                             addComponentAndDependencies(dependency);
                         } else {
-                            Log.warning("Hard dependency missing! " + component.getClass().getName() + " -> " + dependencyClass.getName());
+                            Log.warning(component, "Hard dependency missing! " + dependencyClass.getName());
                             hardDependencyMissing.add(component);
                             return;
                         }
@@ -234,7 +226,7 @@ public abstract class ComponentManager extends JavaPlugin {
                         if (dependency != null) {
                             addComponentAndDependencies(dependency);
                         } else {
-                            Log.warning("Soft dependency missing! " + component.getClass().getName() + " -> " + dependencyClass.getName());
+                            Log.warning(component, "Soft dependency missing! " + dependencyClass.getName());
                         }
                     }
                 }

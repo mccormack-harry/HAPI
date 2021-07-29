@@ -74,8 +74,7 @@ public abstract class Component {
         try {
             Bukkit.getPluginManager().registerEvents(listener, getPlugin());
         } catch (Exception e) {
-            Log.warning(this, "Failed to register listener: " + listener.getClass().getName());
-            Log.error(this, e);
+            Log.error(this, e, "Failed to register listener: " + listener.getClass().getName());
             return;
         }
         listeners.add(listener);

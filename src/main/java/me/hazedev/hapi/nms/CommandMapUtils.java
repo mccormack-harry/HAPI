@@ -31,8 +31,7 @@ public class CommandMapUtils {
             try {
                 reloadCommandMap();
             } catch (IllegalAccessException | NoSuchFieldException e) {
-                Log.warning("Failed to load CommandMap");
-                Log.error(e);
+                Log.error(null, e, "Failed to load CommandMap");
             }
         }
         return commandMap != null;

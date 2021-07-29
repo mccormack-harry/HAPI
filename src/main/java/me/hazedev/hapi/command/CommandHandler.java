@@ -42,7 +42,7 @@ public abstract class CommandHandler extends Command {
             boolean optionalPresent = false;
             for (Argument argument: subCommand.getArguments()) {
                 if (optionalPresent && !argument.isOptional()) {
-                    Log.warning("Failed to register subcommand: " + subCommand.getClass().getName());
+                    Log.warning(null, "Failed to register subcommand: " + subCommand.getClass().getName());
                 } else if (!optionalPresent) {
                     optionalPresent = argument.isOptional();
                 }

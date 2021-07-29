@@ -54,8 +54,7 @@ public class EnchantmentManager {
                 }
                 Enchantment.registerEnchantment(enchantment);
             } catch (Exception e) {
-                Log.warning(component, "Failed to register enchantment: " + enchantment.getName());
-                Log.error(component, e);
+                Log.error(component, e, "Failed to register enchantment: " + enchantment.getName());
                 return;
             }
             if (enchantment instanceof Listener) {

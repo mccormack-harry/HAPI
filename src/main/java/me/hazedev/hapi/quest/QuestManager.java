@@ -54,7 +54,7 @@ public class QuestManager extends Component implements Listener {
             registerListener(milestone);
             milestones.add(milestone);
         } else {
-            Log.warning("Duplicate milestone: " + milestone.getClass().getName());
+            Log.warning(this, "Duplicate milestone: " + milestone.getClass().getName());
         }
     }
 
@@ -66,7 +66,7 @@ public class QuestManager extends Component implements Listener {
             }
             quests.add(quest);
         } else {
-            Log.warning("Duplicate quest: " + quest.getClass().getName());
+            Log.warning(this, "Duplicate quest: " + quest.getClass().getName());
             throw new IllegalArgumentException("Quest already registered!");
         }
     }

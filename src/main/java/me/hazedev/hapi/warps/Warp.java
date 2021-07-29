@@ -105,7 +105,7 @@ public class Warp {
         try {
             fileHandler.saveConfig();
         } catch (IOException e) {
-            Log.error(e);
+            Log.error(null, e, "Failed to save warp configuration for " + identifier);
         }
     }
 
@@ -138,7 +138,7 @@ public class Warp {
         if (world != null) {
             return new Location(world, x, y, z, yaw, pitch);
         } else {
-            Log.warning("Invalid world '" + this.world + "' for warp '" + identifier + "'");
+            Log.warning(null, "Invalid world '" + this.world + "' for warp '" + identifier + "'");
         }
         return null;
     }
