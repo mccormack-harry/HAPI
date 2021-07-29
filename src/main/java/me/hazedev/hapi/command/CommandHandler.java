@@ -26,7 +26,7 @@ public abstract class CommandHandler extends Command {
     }
 
     public CommandHandler(@NotNull String name, @NotNull String description, @Nullable List<String> aliases, @Nullable String defaultSubCommand) {
-        super(name, description, "/" + name + "help", Collections.emptyList());
+        super(name, description, "/" + name + "help", aliases != null ? aliases : Collections.emptyList());
         if (defaultSubCommand != null) {
             this.defaultSubCommand = defaultSubCommand;
         } else {
