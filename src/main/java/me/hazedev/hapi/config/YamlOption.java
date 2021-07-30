@@ -50,4 +50,10 @@ public abstract class YamlOption<T> {
     public String toString() {
         return get().toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return get().equals(obj);
+    }
+
 }
