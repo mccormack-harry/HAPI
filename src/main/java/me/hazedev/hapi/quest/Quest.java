@@ -4,9 +4,9 @@ import me.hazedev.hapi.chat.CCUtils;
 import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.event.QuestFinishedEvent;
 import me.hazedev.hapi.event.QuestStartEvent;
-import me.hazedev.hapi.userdata.UserData;
-import me.hazedev.hapi.userdata.property.LongProperty;
-import me.hazedev.hapi.userdata.property.Property;
+import me.hazedev.hapi.player.data.PlayerData;
+import me.hazedev.hapi.player.data.property.LongProperty;
+import me.hazedev.hapi.player.data.property.Property;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -65,12 +65,12 @@ public abstract class Quest {
     }
 
     public final Long getProgress(UUID uniqueId) {
-        UserData userData = manager.getUserDataManager().getUserData(uniqueId);
-        return userData.getProperty(getPath(), progressProperty);
+        PlayerData playerData = manager.getPlayerdataManager().getPlayerData(uniqueId);
+        return playerData.getProperty(getPath(), progressProperty);
     }
 
     private void setProgress(UUID uniqueId, Long progress) {
-        manager.getUserDataManager().getUserData(uniqueId).setProperty(getPath(), progressProperty, progress);
+        manager.getPlayerdataManager().getPlayerData(uniqueId).setProperty(getPath(), progressProperty, progress);
     }
 
     public final Long getFinishedTime(Player player) {
@@ -78,12 +78,12 @@ public abstract class Quest {
     }
 
     public final Long getFinishedTime(UUID uniqueId) {
-        UserData userData = manager.getUserDataManager().getUserData(uniqueId);
-        return userData.getProperty(getPath(), finishedTimeProperty);
+        PlayerData playerData = manager.getPlayerdataManager().getPlayerData(uniqueId);
+        return playerData.getProperty(getPath(), finishedTimeProperty);
     }
 
     private void setFinishedTime(UUID uniqueId, Long finishTime) {
-        manager.getUserDataManager().getUserData(uniqueId).setProperty(getPath(), finishedTimeProperty, finishTime);
+        manager.getPlayerdataManager().getPlayerData(uniqueId).setProperty(getPath(), finishedTimeProperty, finishTime);
     }
 
     public final boolean checkPrerequisites(Player player) {

@@ -59,7 +59,7 @@ However you must include HAPI in your final Jar, you can configure the shade plu
 - [Log Utils](src/main/java/me/hazedev/hapi/logging)
 - [Custom Events](src/main/java/me/hazedev/hapi/event) (Some require a component to be enabled e.g. FirstJoinEvent is called by JoinQuitHandler component)
 - [QuestAPI](src/main/java/me/hazedev/hapi/quest)
-- [UserDataManager](src/main/java/me/hazedev/hapi/userdata)
+- [PlayerDataManager](src/main/java/me/hazedev/hapi/player/data)
 - [Statistics API](src/main/java/me/hazedev/hapi/stats)
 - [Economy API](src/main/java/me/hazedev/hapi/economy) - _With Vault support_
 - [Validation Utils](src/main/java/me/hazedev/hapi/validation) - _Mainly used by CommandHandlers_

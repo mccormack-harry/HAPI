@@ -1,7 +1,7 @@
 package me.hazedev.hapi.stats;
 
-import me.hazedev.hapi.userdata.UserData;
-import me.hazedev.hapi.userdata.UserDataManager;
+import me.hazedev.hapi.player.data.PlayerData;
+import me.hazedev.hapi.player.data.PlayerDataManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +24,11 @@ public class CombiningLongStatistic extends LongStatistic {
 
     @Override
     public Map<UUID, Long> getAll() {
-        UserDataManager userDataManager = manager.verifySoftDependency(UserDataManager.class);
-        if (userDataManager != null) {
+        PlayerDataManager playerDataManager = manager.verifySoftDependency(PlayerDataManager.class);
+        if (playerDataManager != null) {
             Map<UUID, Long> all = new HashMap<>();
-            for (UserData userData: userDataManager.getAllUserData()) {
-                UUID uniqueId =  userData.getProperty(UserData.UNIQUE_ID);
+            for (PlayerData playerData : playerDataManager.getAllPlayerData()) {
+                UUID uniqueId =  playerData.getProperty(PlayerData.UNIQUE_ID);
                 all.put(uniqueId, getRawValue(uniqueId));
             }
             return all;
@@ -48,13 +48,13 @@ public class CombiningLongStatistic extends LongStatistic {
     }
 
     @Override
-    public void load(UserDataManager userDataManager) {}
+    public void load(PlayerDataManager playerDataManager) {}
 
     @Override
-    public void save(UserDataManager userDataManager) {}
+    public void save(PlayerDataManager playerDataManager) {}
 
     @Override
-    public void reset(UserDataManager userDataManager) {}
+    public void reset(PlayerDataManager playerDataManager) {}
 
     @Override
     protected void increment(UUID uniqueId, long amount) {}

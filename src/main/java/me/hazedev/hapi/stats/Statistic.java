@@ -1,6 +1,6 @@
 package me.hazedev.hapi.stats;
 
-import me.hazedev.hapi.userdata.UserDataManager;
+import me.hazedev.hapi.player.data.PlayerDataManager;
 import org.apache.commons.lang.WordUtils;
 
 import java.util.ArrayList;
@@ -43,11 +43,11 @@ public abstract class Statistic<T> {
 
     public abstract Map<UUID, T> getAll();
 
-    public abstract void load(UserDataManager userDataManager);
+    public abstract void load(PlayerDataManager playerDataManager);
 
-    public abstract void save(UserDataManager userDataManager);
+    public abstract void save(PlayerDataManager playerDataManager);
 
-    public abstract void reset(UserDataManager userDataManager);
+    public abstract void reset(PlayerDataManager playerDataManager);
 
     public abstract int compare(T t1, T t2);
 

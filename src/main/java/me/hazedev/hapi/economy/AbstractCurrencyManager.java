@@ -5,10 +5,10 @@ import me.hazedev.hapi.command.CommandDelegator;
 import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.economy.command.EcoCommandHandler;
 import me.hazedev.hapi.economy.command.EconomyCommandsHandler;
-import me.hazedev.hapi.userdata.UserData;
-import me.hazedev.hapi.userdata.UserDataManager;
-import me.hazedev.hapi.userdata.property.DoubleProperty;
-import me.hazedev.hapi.userdata.property.Property;
+import me.hazedev.hapi.player.data.PlayerData;
+import me.hazedev.hapi.player.data.PlayerDataManager;
+import me.hazedev.hapi.player.data.property.DoubleProperty;
+import me.hazedev.hapi.player.data.property.Property;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,11 +29,11 @@ public abstract class AbstractCurrencyManager extends Component {
     @Override
     protected final boolean onEnable() throws Exception {
         registerCurrencies();
-        UserDataManager userDataManager = verifyHardDependency(UserDataManager.class);
+        PlayerDataManager playerDataManager = verifyHardDependency(PlayerDataManager.class);
         currencySet.forEach(currency -> {
             Property<Double> currencyProperty = new DoubleProperty(currency.getId());
-            userDataManager.getAllUserData().forEach(userData -> {
-                currency.setBalanceFromFile(userData.getProperty(UserData.UNIQUE_ID), userData.getProperty(getId(), currencyProperty, 0D));
+            playerDataManager.getAllPlayerData().forEach(playerdata -> {
+                currency.setBalanceFromFile(playerdata.getProperty(PlayerData.UNIQUE_ID), playerdata.getProperty(getId(), currencyProperty, 0D));
             });
         });
         currencySet.forEach(Currency::setEnabled);
@@ -47,20 +47,20 @@ public abstract class AbstractCurrencyManager extends Component {
 
     @Override
     protected void save() {
-        UserDataManager userDataManager = verifyHardDependency(UserDataManager.class);
+        PlayerDataManager playerDataManager = verifyHardDependency(PlayerDataManager.class);
         currencySet.forEach(currency -> {
             Property<Double> currencyProperty = new DoubleProperty(currency.getId());
-            userDataManager.getAllUserData().forEach(userData -> {
-                userData.setProperty(getId(), currencyProperty, currency.getBalance(userData.getProperty(UserData.UNIQUE_ID)));
+            playerDataManager.getAllPlayerData().forEach(playerdata -> {
+                playerdata.setProperty(getId(), currencyProperty, currency.getBalance(playerdata.getProperty(PlayerData.UNIQUE_ID)));
             });
         });
     }
 
     @Override
     protected void reset() {
-        UserDataManager userDataManager = verifyHardDependency(UserDataManager.class);
-        userDataManager.getAllUserData().forEach(userData -> {
-            userData.unsetProperty(getId());
+        PlayerDataManager playerDataManager = verifyHardDependency(PlayerDataManager.class);
+        playerDataManager.getAllPlayerData().forEach(playerdata -> {
+            playerdata.unsetProperty(getId());
         });
     }
 
@@ -114,7 +114,7 @@ public abstract class AbstractCurrencyManager extends Component {
     @Override
     protected List<Class<? extends Component>> getDependencies(boolean hard) {
         if (hard) {
-            return Collections.singletonList(UserDataManager.class);
+            return Collections.singletonList(PlayerDataManager.class);
         } else {
             return null;
         }

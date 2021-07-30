@@ -1,7 +1,7 @@
 package me.hazedev.hapi.stats;
 
 import me.hazedev.hapi.chat.ChatUtils;
-import me.hazedev.hapi.userdata.UserDataManager;
+import me.hazedev.hapi.player.data.PlayerDataManager;
 import me.hazedev.hapi.validation.Validators;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -52,7 +52,7 @@ public class CommandStat extends Command {
 
             OfflinePlayer player = null;
             if (args.length > 1) {
-                player = manager.verifyHardDependency(UserDataManager.class).getOfflinePlayer(args[1]);
+                player = manager.verifyHardDependency(PlayerDataManager.class).getOfflinePlayer(args[1]);
             }
             if (player == null && sender instanceof Player) {
                 player = (OfflinePlayer) sender;

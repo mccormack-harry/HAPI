@@ -5,7 +5,7 @@ import me.hazedev.hapi.chat.ChatUtils;
 import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.logging.Log;
 import me.hazedev.hapi.quest.menu.QuestsMainMenu;
-import me.hazedev.hapi.userdata.UserDataManager;
+import me.hazedev.hapi.player.data.PlayerDataManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class QuestManager extends Component implements Listener {
 
-    private UserDataManager userDataManager;
+    private PlayerDataManager playerDataManager;
 
     public static final String PREFIX = CCUtils.addColor("&c[Quests] ");
     public static final String COLOR = CCUtils.GOLD;
@@ -34,7 +34,7 @@ public class QuestManager extends Component implements Listener {
 
     @Override
     public boolean onEnable() throws Exception {
-        userDataManager = verifyHardDependency(UserDataManager.class);
+        playerDataManager = verifyHardDependency(PlayerDataManager.class);
         menu = new QuestsMainMenu(this);
         registerListener(new QuestUpdater(this));
         registerCommand(new QuestCommandHandler(this));
@@ -43,7 +43,7 @@ public class QuestManager extends Component implements Listener {
 
     @Override
     protected void reset() {
-        userDataManager.getAllUserData().forEach(userData -> userData.unsetProperty(getId()));
+        playerDataManager.getAllPlayerData().forEach(playerdata -> playerdata.unsetProperty(getId()));
     }
 
     public void updateQuests(Player player) {
@@ -117,14 +117,14 @@ public class QuestManager extends Component implements Listener {
         menu.open(player);
     }
 
-    public UserDataManager getUserDataManager() {
-        return userDataManager;
+    public PlayerDataManager getPlayerdataManager() {
+        return playerDataManager;
     }
 
     @Override
     protected List<Class<? extends Component>> getDependencies(boolean hard) {
         if (hard) {
-            return Collections.singletonList(UserDataManager.class);
+            return Collections.singletonList(PlayerDataManager.class);
         } else {
             return null;
         }

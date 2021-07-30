@@ -4,10 +4,10 @@ import me.hazedev.hapi.chat.CCUtils;
 import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.event.LongStatisticIncrementEvent;
 import me.hazedev.hapi.stats.LongStatistic;
-import me.hazedev.hapi.userdata.UserDataManager;
-import me.hazedev.hapi.userdata.property.IntegerProperty;
-import me.hazedev.hapi.userdata.property.LongProperty;
-import me.hazedev.hapi.userdata.property.Property;
+import me.hazedev.hapi.player.data.PlayerDataManager;
+import me.hazedev.hapi.player.data.property.IntegerProperty;
+import me.hazedev.hapi.player.data.property.LongProperty;
+import me.hazedev.hapi.player.data.property.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -67,25 +67,25 @@ public abstract class Milestone implements Listener {
         return currentTier;
     }
 
-    private String getUserDataPath() {
+    private String getPlayerdataPath() {
         return manager.getId() + "." + getId();
     }
 
     private int getAwardedTier(Player player) {
-        return manager.verifyHardDependency(UserDataManager.class).getUserData(player).getProperty(getUserDataPath(), awardedTierProperty, 0);
+        return manager.verifyHardDependency(PlayerDataManager.class).getPlayerData(player).getProperty(getPlayerdataPath(), awardedTierProperty, 0);
     }
 
     private void setAwardedTier(Player player, int tier) {
-        manager.verifyHardDependency(UserDataManager.class).getUserData(player).setProperty(getUserDataPath(), awardedTierProperty, tier);
+        manager.verifyHardDependency(PlayerDataManager.class).getPlayerData(player).setProperty(getPlayerdataPath(), awardedTierProperty, tier);
     }
 
     private Long getStartProgress(Player player) {
-        return manager.verifyHardDependency(UserDataManager.class).getUserData(player).getProperty(getUserDataPath(), startProgressProperty, null);
+        return manager.verifyHardDependency(PlayerDataManager.class).getPlayerData(player).getProperty(getPlayerdataPath(), startProgressProperty, null);
     }
 
     private void setStartProgress(Player player, long progress) {
         if (getStartProgress(player) == null) {
-            manager.verifyHardDependency(UserDataManager.class).getUserData(player).setProperty(getUserDataPath(), startProgressProperty, progress);
+            manager.verifyHardDependency(PlayerDataManager.class).getPlayerData(player).setProperty(getPlayerdataPath(), startProgressProperty, progress);
         }
     }
 

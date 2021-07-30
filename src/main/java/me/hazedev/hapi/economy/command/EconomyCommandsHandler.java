@@ -3,7 +3,7 @@ package me.hazedev.hapi.economy.command;
 import me.hazedev.hapi.chat.ChatUtils;
 import me.hazedev.hapi.economy.AbstractCurrencyManager;
 import me.hazedev.hapi.economy.Currency;
-import me.hazedev.hapi.userdata.UserDataManager;
+import me.hazedev.hapi.player.data.PlayerDataManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -51,11 +51,11 @@ public class EconomyCommandsHandler implements TabExecutor {
             if (!topMap.isEmpty()) {
                 List<String> baltop = new ArrayList<>();
                 baltop.add("&a--- &2&lBaltop &a-- &f" + currency.getName() + " &a---");
-                UserDataManager userDataManager = manager.verifyHardDependency(UserDataManager.class);
+                PlayerDataManager playerDataManager = manager.verifyHardDependency(PlayerDataManager.class);
                 int pos = 1;
                 for (Map.Entry<UUID, Double> entry: topMap.entrySet()) {
                     String name = "?";
-                    OfflinePlayer player = userDataManager.getOfflinePlayer(entry.getKey());
+                    OfflinePlayer player = playerDataManager.getOfflinePlayer(entry.getKey());
                     if (player != null && player.getName() != null) {
                         name = player.getName();
                     }
