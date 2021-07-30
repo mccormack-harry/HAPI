@@ -19,8 +19,4 @@ public class OptionString extends YamlOption<String> {
         }
     }
 
-    @Override
-    public String toString() {
-        return get();
-    }
 }
