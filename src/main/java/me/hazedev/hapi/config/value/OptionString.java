@@ -18,4 +18,9 @@ public class OptionString extends YamlOption<String> {
             throw new IllegalArgumentException("Value must be a string");
         }
     }
+
+    @Override
+    public String toString() {
+        return get();
+    }
 }
