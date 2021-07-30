@@ -2,9 +2,9 @@ package me.hazedev.hapi.userdata;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import me.hazedev.hapi.userdata.properties.Property;
-import me.hazedev.hapi.userdata.properties.StringProperty;
-import me.hazedev.hapi.userdata.properties.UUIDProperty;
+import me.hazedev.hapi.userdata.property.Property;
+import me.hazedev.hapi.userdata.property.StringProperty;
+import me.hazedev.hapi.userdata.property.UUIDProperty;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

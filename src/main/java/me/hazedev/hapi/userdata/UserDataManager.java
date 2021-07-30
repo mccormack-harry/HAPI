@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
 import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.logging.Log;
-import me.hazedev.hapi.userdata.properties.Property;
+import me.hazedev.hapi.userdata.property.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

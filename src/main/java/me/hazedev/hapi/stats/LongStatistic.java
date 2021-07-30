@@ -4,8 +4,8 @@ import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.event.LongStatisticIncrementEvent;
 import me.hazedev.hapi.userdata.UserData;
 import me.hazedev.hapi.userdata.UserDataManager;
-import me.hazedev.hapi.userdata.properties.LongProperty;
-import me.hazedev.hapi.userdata.properties.Property;
+import me.hazedev.hapi.userdata.property.LongProperty;
+import me.hazedev.hapi.userdata.property.Property;
 import org.bukkit.Bukkit;
 
 import java.util.Collections;

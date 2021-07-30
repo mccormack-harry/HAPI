@@ -7,8 +7,8 @@ import me.hazedev.hapi.economy.command.EcoCommandHandler;
 import me.hazedev.hapi.economy.command.EconomyCommandsHandler;
 import me.hazedev.hapi.userdata.UserData;
 import me.hazedev.hapi.userdata.UserDataManager;
-import me.hazedev.hapi.userdata.properties.DoubleProperty;
-import me.hazedev.hapi.userdata.properties.Property;
+import me.hazedev.hapi.userdata.property.DoubleProperty;
+import me.hazedev.hapi.userdata.property.Property;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 

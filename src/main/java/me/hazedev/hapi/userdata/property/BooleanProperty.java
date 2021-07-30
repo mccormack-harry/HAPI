@@ -1,4 +1,4 @@
-package me.hazedev.hapi.userdata.properties;
+package me.hazedev.hapi.userdata.property;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
