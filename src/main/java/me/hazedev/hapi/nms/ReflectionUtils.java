@@ -33,7 +33,7 @@ public class ReflectionUtils {
             CLASS_CACHE.put(className, clazz);
         }
         catch (Exception e) {
-            Log.error(e);
+            Log.error(null, e, null);
         }
         return clazz;
     }
@@ -51,7 +51,7 @@ public class ReflectionUtils {
             return getMethod(entity.getClass(), "getHandle").invoke(entity);
         }
         catch (Exception e) {
-            Log.error(e);
+            Log.error(null, e, null);
             return null;
         }
     }
@@ -61,7 +61,7 @@ public class ReflectionUtils {
             return getMethod(world.getClass(), "getHandle").invoke(world);
         }
         catch (Exception e) {
-            Log.error(e);
+            Log.error(null, e, null);
             return null;
         }
     }
@@ -84,7 +84,7 @@ public class ReflectionUtils {
             FIELD_CACHE.put(cacheKey, field);
         }
         catch (Exception e) {
-            Log.error(e);
+            Log.error(null, e, null);
         }
 
         return field;
@@ -104,7 +104,7 @@ public class ReflectionUtils {
             FIELD_CACHE.put(cacheKey, field);
         }
         catch (Exception e) {
-            Log.error(e);
+            Log.error(null, e, null);
         }
 
         return field;

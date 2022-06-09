@@ -13,7 +13,7 @@ public class OverflowStorage extends Component {
     }
 
     @Override
-    public boolean onEnable() {
+    public boolean onEnable() throws Exception {
         return super.onEnable();
     }
 

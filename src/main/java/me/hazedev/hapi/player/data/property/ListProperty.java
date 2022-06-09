@@ -1,4 +1,4 @@
-package me.hazedev.hapi.userdata.properties;
+package me.hazedev.hapi.player.data.property;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

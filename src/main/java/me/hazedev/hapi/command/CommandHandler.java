@@ -9,7 +9,12 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class CommandHandler extends Command {
 
@@ -21,7 +26,7 @@ public abstract class CommandHandler extends Command {
     }
 
     public CommandHandler(@NotNull String name, @NotNull String description, @Nullable List<String> aliases, @Nullable String defaultSubCommand) {
-        super(name, description, "/" + name + "help", Collections.emptyList());
+        super(name, description, "/" + name + "help", aliases != null ? aliases : Collections.emptyList());
         if (defaultSubCommand != null) {
             this.defaultSubCommand = defaultSubCommand;
         } else {
@@ -42,7 +47,7 @@ public abstract class CommandHandler extends Command {
             boolean optionalPresent = false;
             for (Argument argument: subCommand.getArguments()) {
                 if (optionalPresent && !argument.isOptional()) {
-                    Log.warning("Failed to register subcommand: " + subCommand.getClass().getName());
+                    Log.warning(null, "Failed to register subcommand: " + subCommand.getClass().getName());
                 } else if (!optionalPresent) {
                     optionalPresent = argument.isOptional();
                 }

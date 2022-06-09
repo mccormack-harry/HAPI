@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.hazedev.hapi.chat.CCUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.Locale;
@@ -64,6 +66,10 @@ public class JsonComponent {
         return this;
     }
 
+    public Component serializeAdventure() {
+        return GsonComponentSerializer.gson().deserializeFromTree(serialize());
+    }
+
     public JsonElement serialize() {
         // Attempt translate HEX codes
         JsonArray hexResult = new JsonArray();
@@ -96,7 +102,6 @@ public class JsonComponent {
             }
             return hexResult;
         }
-
         // Regular translation, Supports vanilla colors
         return serializeNoHex();
     }

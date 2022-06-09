@@ -5,10 +5,10 @@ import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.event.FirstJoinEvent;
 import me.hazedev.hapi.logging.Log;
-import me.hazedev.hapi.userdata.UserData;
-import me.hazedev.hapi.userdata.UserDataManager;
-import me.hazedev.hapi.userdata.properties.BooleanProperty;
-import me.hazedev.hapi.userdata.properties.Property;
+import me.hazedev.hapi.player.data.PlayerData;
+import me.hazedev.hapi.player.data.PlayerDataManager;
+import me.hazedev.hapi.player.data.property.BooleanProperty;
+import me.hazedev.hapi.player.data.property.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class JoinQuitHandler extends Component implements Listener {
 
@@ -30,10 +34,10 @@ public class JoinQuitHandler extends Component implements Listener {
     }
 
     @Override
-    public boolean onEnable() {
-        verifyHardDependency(UserDataManager.class).getAllUserData().forEach(userData -> {
-            if (userData.getProperty(WELCOMED_PROPERTY, false)) {
-                this.welcomed.add(userData.getProperty(UserData.UNIQUE_ID));
+    public boolean onEnable() throws Exception {
+        verifyHardDependency(PlayerDataManager.class).getAllPlayerData().forEach(playerdata -> {
+            if (playerdata.getProperty(WELCOMED_PROPERTY, false)) {
+                this.welcomed.add(playerdata.getProperty(PlayerData.UNIQUE_ID));
             }
         });
         return true;
@@ -41,11 +45,11 @@ public class JoinQuitHandler extends Component implements Listener {
 
     @Override
     public void save() {
-        UserDataManager userDataManager = verifyHardDependency(UserDataManager.class);
-        for (UserData userData: userDataManager.getAllUserData()) {
-            UUID uniqueId = userData.getProperty(UserData.UNIQUE_ID);
+        PlayerDataManager playerDataManager = verifyHardDependency(PlayerDataManager.class);
+        for (PlayerData playerData : playerDataManager.getAllPlayerData()) {
+            UUID uniqueId = playerData.getProperty(PlayerData.UNIQUE_ID);
             if (welcomed.contains(uniqueId)) {
-                userData.setProperty(WELCOMED_PROPERTY, true);
+                playerData.setProperty(WELCOMED_PROPERTY, true);
             }
         }
     }
@@ -53,8 +57,8 @@ public class JoinQuitHandler extends Component implements Listener {
     @Override
     protected void reset() {
         this.welcomed.clear();
-        verifyHardDependency(UserDataManager.class).getAllUserData().forEach(userData -> {
-            userData.unsetProperty(WELCOMED_PROPERTY);
+        verifyHardDependency(PlayerDataManager.class).getAllPlayerData().forEach(playerdata -> {
+            playerdata.unsetProperty(WELCOMED_PROPERTY);
         });
     }
 
@@ -87,7 +91,7 @@ public class JoinQuitHandler extends Component implements Listener {
     @Override
     protected List<Class<? extends Component>> getDependencies(boolean hard) {
         if (hard) {
-            return Collections.singletonList(UserDataManager.class);
+            return Collections.singletonList(PlayerDataManager.class);
         } else {
             return null;
         }

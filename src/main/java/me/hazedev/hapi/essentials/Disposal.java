@@ -25,7 +25,7 @@ public class Disposal extends Component implements Listener {
     }
 
     @Override
-    protected boolean onEnable() {
+    protected boolean onEnable() throws Exception {
         registerCommand(new DisposalCommand());
         return true;
     }

@@ -2,10 +2,10 @@ package me.hazedev.hapi.stats;
 
 import me.hazedev.hapi.chat.Formatter;
 import me.hazedev.hapi.event.LongStatisticIncrementEvent;
-import me.hazedev.hapi.userdata.UserData;
-import me.hazedev.hapi.userdata.UserDataManager;
-import me.hazedev.hapi.userdata.properties.LongProperty;
-import me.hazedev.hapi.userdata.properties.Property;
+import me.hazedev.hapi.player.data.PlayerData;
+import me.hazedev.hapi.player.data.PlayerDataManager;
+import me.hazedev.hapi.player.data.property.LongProperty;
+import me.hazedev.hapi.player.data.property.Property;
 import org.bukkit.Bukkit;
 
 import java.util.Collections;
@@ -16,16 +16,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LongStatistic extends Statistic<Long> {
 
     protected final Map<UUID, Long> memory = new ConcurrentHashMap<>();
-    private final Property<Long> userDataProperty;
+    private final Property<Long> playerdataProperty;
 
     public LongStatistic(String id, String name, boolean permanent) {
         super(id, name, permanent);
-        userDataProperty = new LongProperty(id);
+        playerdataProperty = new LongProperty(id);
     }
 
     public LongStatistic(String id, boolean permanent) {
         super(id, permanent);
-        userDataProperty = new LongProperty(id);
+        playerdataProperty = new LongProperty(id);
     }
 
     @Override
@@ -39,29 +39,29 @@ public class LongStatistic extends Statistic<Long> {
     }
 
     @Override
-    public void load(UserDataManager userDataManager) {
-        userDataManager.getAllUserData().forEach(userData -> {
-            Long property = userData.getProperty(manager.getPath(), userDataProperty);
+    public void load(PlayerDataManager playerDataManager) {
+        playerDataManager.getAllPlayerData().forEach(playerdata -> {
+            Long property = playerdata.getProperty(manager.getPath(), playerdataProperty);
             if (property != null) {
-                memory.put(userData.getProperty(UserData.UNIQUE_ID), userData.getProperty(manager.getPath(), userDataProperty, 0L));
+                memory.put(playerdata.getProperty(PlayerData.UNIQUE_ID), playerdata.getProperty(manager.getPath(), playerdataProperty, 0L));
             }
         });
     }
 
     @Override
-    public void save(UserDataManager userDataManager) {
+    public void save(PlayerDataManager playerDataManager) {
         for (Map.Entry<UUID, Long> entry: memory.entrySet()) {
-            userDataManager.getUserData(entry.getKey()).setProperty(manager.getPath(), userDataProperty, entry.getValue());
+            playerDataManager.getPlayerData(entry.getKey()).setProperty(manager.getPath(), playerdataProperty, entry.getValue());
         }
-//        userDataSet.forEach(userData -> {
-//            userData.setProperty(manager.getPath(), userDataProperty, memory.get(userData.getProperty(UserData.UNIQUE_ID)));
+//        playerdataSet.forEach(playerdata -> {
+//            playerdata.setProperty(manager.getPath(), playerdataProperty, memory.get(playerdata.getProperty(Playerdata.UNIQUE_ID)));
 //        });
     }
 
     @Override
-    public void reset(UserDataManager userDataManager) {
-        userDataManager.getAllUserData().forEach(userData -> {
-            userData.unsetProperty(manager.getPath(), userDataProperty);
+    public void reset(PlayerDataManager playerDataManager) {
+        playerDataManager.getAllPlayerData().forEach(playerdata -> {
+            playerdata.unsetProperty(manager.getPath(), playerdataProperty);
         });
         memory.clear();
     }

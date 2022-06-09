@@ -3,7 +3,7 @@ package me.hazedev.hapi.stats;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.hazedev.hapi.component.Component;
 import me.hazedev.hapi.logging.Log;
-import me.hazedev.hapi.userdata.UserDataManager;
+import me.hazedev.hapi.player.data.PlayerDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public abstract class AbstractStatisticManager extends Component {
 
-    private UserDataManager userDataManager;
+    private PlayerDataManager playerDataManager;
     private final List<Statistic<?>> statistics = new ArrayList<>();
 
     public AbstractStatisticManager() {
@@ -22,8 +22,8 @@ public abstract class AbstractStatisticManager extends Component {
     }
 
     @Override
-    protected boolean onEnable() {
-        userDataManager = verifyHardDependency(UserDataManager.class);
+    protected boolean onEnable() throws Exception {
+        playerDataManager = verifyHardDependency(PlayerDataManager.class);
         registerStatistics();
         loadAll();
         registerListeners();
@@ -76,7 +76,7 @@ public abstract class AbstractStatisticManager extends Component {
     }
 
     public void load(Statistic<?> statistic) {
-        statistic.load(userDataManager);
+        statistic.load(playerDataManager);
     }
 
     public void saveAll() {
@@ -84,7 +84,7 @@ public abstract class AbstractStatisticManager extends Component {
     }
 
     public void save(Statistic<?> statistic) {
-        statistic.save(userDataManager);
+        statistic.save(playerDataManager);
     }
 
     public void resetAll() {
@@ -93,7 +93,7 @@ public abstract class AbstractStatisticManager extends Component {
 
     public void reset(Statistic<?> statistic) {
         if (statistic.isPermanent()) return;
-        statistic.reset(userDataManager);
+        statistic.reset(playerDataManager);
     }
 
     private void registerListeners() {
@@ -102,8 +102,7 @@ public abstract class AbstractStatisticManager extends Component {
                 try {
                     registerListener((Listener) statistic);
                 } catch(Exception e) {
-                    Log.warning(this, "Failed to register listener for " + statistic.getId());
-                    Log.error(this, e);
+                    Log.error(this, e, "Failed to register listener for " + statistic.getId());
                 }
             }
         }
@@ -127,7 +126,7 @@ public abstract class AbstractStatisticManager extends Component {
     @Override
     protected List<Class<? extends Component>> getDependencies(boolean hard) {
         if (hard) {
-            return Collections.singletonList(UserDataManager.class);
+            return Collections.singletonList(PlayerDataManager.class);
         } else {
             return null;
         }

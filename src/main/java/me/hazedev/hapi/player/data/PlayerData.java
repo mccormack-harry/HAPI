@@ -1,10 +1,10 @@
-package me.hazedev.hapi.userdata;
+package me.hazedev.hapi.player.data;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import me.hazedev.hapi.userdata.properties.Property;
-import me.hazedev.hapi.userdata.properties.StringProperty;
-import me.hazedev.hapi.userdata.properties.UUIDProperty;
+import me.hazedev.hapi.player.data.property.Property;
+import me.hazedev.hapi.player.data.property.StringProperty;
+import me.hazedev.hapi.player.data.property.UUIDProperty;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,20 +12,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class UserData {
+public class PlayerData {
 
     public static final Property<UUID> UNIQUE_ID = new UUIDProperty("uuid");
     public static final Property<String> NAME = new StringProperty("name");
 
     private final JsonObject root;
 
-    public UserData(Player player) {
+    public PlayerData(Player player) {
         root = new JsonObject();
         setProperty(UNIQUE_ID, player.getUniqueId());
         setProperty(NAME, player.getName());
     }
 
-    public UserData(JsonObject root) {
+    public PlayerData(JsonObject root) {
         this.root = root;
     }
 
@@ -107,6 +107,14 @@ public class UserData {
         if (pathObject != null) {
             pathObject.remove(id);
         }
+    }
+
+    public UUID getUniqueId() {
+        return getProperty(UNIQUE_ID);
+    }
+
+    public String getName() {
+        return getProperty(NAME);
     }
 
 }

@@ -2,8 +2,8 @@ package me.hazedev.hapi.chat.json;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import me.hazedev.hapi.nms.ReflectionUtils;
 import me.hazedev.hapi.logging.Log;
+import me.hazedev.hapi.nms.ReflectionUtils;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Constructor;
@@ -66,10 +66,10 @@ public class HoverAction {
             String tag = null;
             try {
                 tag = SAVE.invoke(AS_NMS_COPY.invoke(null, itemStack), NBT_TAG_COMPOUND_CONSTRUCTOR.newInstance()).toString();
+                Log.debug(null, tag);
             } catch (Exception e) {
-                Log.error(e);
+                Log.error(null, e, "Failed to serialize ItemStack to NBT");
             }
-            Log.debug(tag);
             JsonObject jsonItem = new JsonObject();
             jsonItem.addProperty("id", itemStack.getType().name().toLowerCase());
             jsonItem.addProperty("count", itemStack.getAmount());

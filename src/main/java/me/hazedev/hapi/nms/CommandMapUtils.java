@@ -31,8 +31,7 @@ public class CommandMapUtils {
             try {
                 reloadCommandMap();
             } catch (IllegalAccessException | NoSuchFieldException e) {
-                Log.warning("Failed to load CommandMap");
-                Log.error(e);
+                Log.error(null, e, "Failed to load CommandMap");
             }
         }
         return commandMap != null;
@@ -44,14 +43,6 @@ public class CommandMapUtils {
         return commandMap;
     }
 
-    private static boolean register(@NotNull String fallbackPrefix, @NotNull Command command) {
-        if (loadCommandMap()) {
-            commandMap.register(fallbackPrefix, command);
-            return true;
-        }
-        return false;
-    }
-
     public static boolean register(@NotNull Component component, @NotNull Command command) {
         return register(component.getId(), command);
     }
@@ -60,10 +51,16 @@ public class CommandMapUtils {
         return register(plugin.getName(), command);
     }
 
+    private static boolean register(@NotNull String fallbackPrefix, @NotNull Command command) {
+        if (loadCommandMap()) {
+            return commandMap.register(fallbackPrefix, command);
+        }
+        return false;
+    }
+
     public static boolean unregister(@NotNull Command command) {
         if (loadCommandMap()) {
-            command.unregister(commandMap);
-            return true;
+            return command.unregister(commandMap);
         }
         return false;
     }

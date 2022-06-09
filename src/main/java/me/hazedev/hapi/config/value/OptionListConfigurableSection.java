@@ -23,7 +23,7 @@ public class OptionListConfigurableSection<T extends ConfigurableSection> extend
         this.sectionCreator = sectionCreator;
     }
 
-    public OptionListConfigurableSection(@NotNull String path, @NotNull ConfigurableSectionCreator<T> sectionCreator, @NotNull String defaultSection) {
+    public OptionListConfigurableSection(@NotNull String path, @NotNull String defaultSection, @NotNull ConfigurableSectionCreator<T> sectionCreator) {
         super(path, Collections.singletonList(sectionCreator.createDefaultInstance(path + "." + defaultSection)));
         super.setValue(new ArrayList<>(getDefaultValue()));
         this.sectionCreator = sectionCreator;
@@ -36,8 +36,10 @@ public class OptionListConfigurableSection<T extends ConfigurableSection> extend
 
     @Override
     public void saveDefaultValue(@NotNull MemorySection configuration) {
-        for (ConfigurableSection section: getDefaultValue()) {
-            configuration.createSection(section.getPath(), YamlConfigReader.serialize(section));
+        if (!configuration.isSet(path)) {
+            for (ConfigurableSection section : getDefaultValue()) {
+                configuration.createSection(section.getPath(), YamlConfigReader.serialize(section));
+            }
         }
     }
 
@@ -50,8 +52,8 @@ public class OptionListConfigurableSection<T extends ConfigurableSection> extend
 
     @Override
     public void readValue(@NotNull ConfigurationSection config) throws IllegalArgumentException {
-        if (config.isConfigurationSection(path)) {
-            ConfigurationSection listSection = config.getConfigurationSection(path);
+        ConfigurationSection listSection = config.getConfigurationSection(path);
+        if (listSection != null) {
             Set<String> keys = listSection.getKeys(false);
 
             // Remove non existent entries
@@ -61,8 +63,7 @@ public class OptionListConfigurableSection<T extends ConfigurableSection> extend
             for (String key: keys) {
                 T section = getExistingSection(path + "." + key);
                 if (section == null) {
-                    section = sectionCreator.createDefaultInstance(path + "." + key);
-                    get().add(section);
+                    section = createSection(key);
                 }
                 YamlConfigReader.read(section);
             }

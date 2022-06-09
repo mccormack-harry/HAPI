@@ -46,4 +46,14 @@ public abstract class YamlOption<T> {
 
     public abstract void readValue(@NotNull ConfigurationSection config) throws IllegalArgumentException;
 
+    @Override
+    public String toString() {
+        return get().toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return get().equals(obj);
+    }
+
 }

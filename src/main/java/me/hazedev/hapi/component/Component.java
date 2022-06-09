@@ -6,6 +6,7 @@ import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -70,15 +71,26 @@ public abstract class Component {
         }
     }
 
+    public final void unregisterCommand(@NotNull Command command) {
+        if (commands.remove(command)) {
+            CommandMapUtils.unregister(command);
+        }
+    }
+
     public final void registerListener(@NotNull Listener listener) {
         try {
             Bukkit.getPluginManager().registerEvents(listener, getPlugin());
         } catch (Exception e) {
-            Log.warning(this, "Failed to register listener: " + listener.getClass().getName());
-            Log.error(this, e);
+            Log.error(this, e, "Failed to register listener: " + listener.getClass().getName());
             return;
         }
         listeners.add(listener);
+    }
+
+    public final void unregisterListener(@NotNull Listener listener) {
+        if (listeners.remove(listener)) {
+            HandlerList.unregisterAll(listener);
+        }
     }
 
     @NotNull
@@ -109,7 +121,7 @@ public abstract class Component {
     /**
      * @return Whether the component has been successfully enabled
      */
-    protected boolean onEnable() {
+    protected boolean onEnable() throws Exception {
         return true;
     }
 
