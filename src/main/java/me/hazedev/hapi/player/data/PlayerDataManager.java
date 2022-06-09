@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +75,7 @@ public class PlayerDataManager extends Component implements Listener {
                         playerDataFile.createNewFile();
                     } catch (IOException e) {
                         Log.error(this, e, "Failed to create " + playerDataFile.getName());
+                        continue;
                     }
                 }
                 try (FileWriter fileWriter = new FileWriter(playerDataFile)) {
@@ -145,7 +147,7 @@ public class PlayerDataManager extends Component implements Listener {
         return null;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         // Load data on join
         Player player = event.getPlayer();
@@ -159,7 +161,7 @@ public class PlayerDataManager extends Component implements Listener {
                 playerDataSet.add(playerData);
             } catch (IOException e) {
                 Log.error(this, e, "Failed to load player-data for " + player.getName());
-                player.kickPlayer("Couldn't load player-data, contact an administrator.");
+                player.kickPlayer("Couldn't load your data, contact an administrator.");
                 return;
             }
         } else {

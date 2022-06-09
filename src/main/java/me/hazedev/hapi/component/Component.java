@@ -6,6 +6,7 @@ import me.hazedev.hapi.nms.CommandMapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -70,6 +71,12 @@ public abstract class Component {
         }
     }
 
+    public final void unregisterCommand(@NotNull Command command) {
+        if (commands.remove(command)) {
+            CommandMapUtils.unregister(command);
+        }
+    }
+
     public final void registerListener(@NotNull Listener listener) {
         try {
             Bukkit.getPluginManager().registerEvents(listener, getPlugin());
@@ -78,6 +85,12 @@ public abstract class Component {
             return;
         }
         listeners.add(listener);
+    }
+
+    public final void unregisterListener(@NotNull Listener listener) {
+        if (listeners.remove(listener)) {
+            HandlerList.unregisterAll(listener);
+        }
     }
 
     @NotNull

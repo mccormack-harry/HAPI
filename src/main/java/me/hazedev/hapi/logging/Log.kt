@@ -1,6 +1,5 @@
 package me.hazedev.hapi.logging
 
-import me.hazedev.hapi.chat.CCUtils
 import me.hazedev.hapi.component.Component
 import org.apache.commons.lang.exception.ExceptionUtils
 import org.bukkit.Bukkit
@@ -26,8 +25,8 @@ object Log {
 
     @JvmStatic
     fun log(component: Component?, level: Level, message: String) {
-        val formatted = formatMessage(component, message)
-        Bukkit.getLogger().log(if (level is CustomLevel) Level.INFO else level, message)
+        val formatted = prefix(component, message)
+        Bukkit.getLogger().log(if (level is CustomLevel) Level.INFO else level, formatted)
         for (logger in additionalLoggers) {
             try {
                 logger.log(level, formatted)
@@ -74,12 +73,12 @@ object Log {
         log(null, VoteLevel, message)
     }
 
-    private fun formatMessage(component: Component?, message: String): String {
-        var formatted = CCUtils.stripColor(message)
+    @JvmStatic
+    fun prefix(component: Component?, message: String): String {
         if (component != null) {
-            formatted = "[${component.id}] $message"
+            return "[${component.id}] $message"
         }
-        return formatted
+        return message
     }
 
 }

@@ -88,9 +88,7 @@ public abstract class AbstractCurrencyManager extends Component {
     public final void registerPlaceholders() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             PlaceholderExpansion currencyPlaceholders = new EconomyPlaceholders(this);
-            if (currencyPlaceholders.canRegister()) {
-                currencyPlaceholders.register();
-            }
+            currencyPlaceholders.register();
         }
     }
 

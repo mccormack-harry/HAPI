@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonStreamParser
 import me.hazedev.hapi.component.Component
-import me.hazedev.hapi.logging.Log
+import me.hazedev.hapi.logging.Log.error
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -42,7 +42,7 @@ class NameHistoryArchive : Component("name-history"), Listener {
                     }
                 }
             } catch (e: IOException) {
-                Log.error(this, e, "Failed to load archived player names")
+                error(this, e, "Failed to load archived player names")
             }
         }
         return true
@@ -59,12 +59,20 @@ class NameHistoryArchive : Component("name-history"), Listener {
                 jsonNameHistoryArchive.add(jsonNameHistory)
             }
         }
+        if (!file.exists()) {
+            file.parentFile.mkdirs()
+            try {
+                file.createNewFile()
+            } catch (e: IOException) {
+                error(this, e, "Failed to create " + file.name)
+            }
+        }
         try {
-            FileWriter(file).use { fileWriter ->
+            FileWriter(this.file).use { fileWriter ->
                 Gson().toJson(jsonNameHistoryArchive, fileWriter)
             }
         } catch (e: IOException) {
-            Log.error(this, e, "Failed to save")
+            error(this, e, "Failed to save")
         }
     }
 

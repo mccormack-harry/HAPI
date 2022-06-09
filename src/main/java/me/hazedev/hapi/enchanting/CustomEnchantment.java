@@ -1,5 +1,6 @@
 package me.hazedev.hapi.enchanting;
 
+import io.papermc.paper.enchantments.EnchantmentRarity;
 import me.hazedev.hapi.chat.CCUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -8,8 +9,13 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityCategory;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.Set;
 
 
 public class CustomEnchantment extends Enchantment implements EnchantmentInfo {
@@ -159,5 +165,30 @@ public class CustomEnchantment extends Enchantment implements EnchantmentInfo {
     @Override
     public boolean conflictsWith(Enchantment enchantment) {
         return false;
+    }
+
+    @Override
+    public boolean isTradeable() {
+        return false;
+    }
+
+    @Override
+    public boolean isDiscoverable() {
+        return false;
+    }
+
+    @Override
+    public @NotNull EnchantmentRarity getRarity() {
+        return EnchantmentRarity.COMMON;
+    }
+
+    @Override
+    public float getDamageIncrease(int i, @NotNull EntityCategory entityCategory) {
+        return 0;
+    }
+
+    @Override
+    public @NotNull Set<EquipmentSlot> getActiveSlots() {
+        return Collections.emptySet();
     }
 }

@@ -58,12 +58,18 @@ public final class YamlConfigReader {
         return result;
     }
 
+    public static void reload(@NotNull YamlConfigurableFile configurableFile) {
+        copyDefaults(configurableFile);
+        read(configurableFile);
+        save(configurableFile);
+    }
+
     /**
-     * Saves {@link YamlOption}'s default values to the configuration file
+     * Copies all the {@link YamlOption}s default values to the configuration
      *
      * @param configurableFile The configurable
      */
-    public static void saveDefaults(@NotNull YamlConfigurableFile configurableFile) {
+    public static void copyDefaults(@NotNull YamlConfigurableFile configurableFile) {
         MemoryConfiguration defaults = new MemoryConfiguration();
 
         for (YamlOption<?> option: getYamlOptions(configurableFile)) {
@@ -73,20 +79,18 @@ public final class YamlConfigReader {
         YamlConfiguration configuration = configurableFile.getConfiguration();
         configuration.setDefaults(defaults);
         configuration.options().copyDefaults(true);
-        try {
-            configurableFile.saveConfig();
-        } catch (IOException e) {
-            Log.error(null, e, "Failed to save defaults to config " + configurableFile.getFileName());
+    }
+
+    // Copies options to config
+    public static void copyValues(@NotNull YamlConfigurable configurable) {
+        ConfigurationSection configuration = configurable.getConfiguration();
+        for (YamlOption<?> option: getYamlOptions(configurable)) {
+            option.saveValue(configuration);
         }
     }
 
     public static void save(@NotNull YamlConfigurableFile configurableFile) {
-        YamlConfiguration configuration = configurableFile.getConfiguration();
-
-        for (YamlOption<?> option: getYamlOptions(configurableFile)) {
-            option.saveValue(configuration);
-        }
-
+        copyValues(configurableFile);
         try {
             configurableFile.saveConfig();
         } catch (IOException e) {
